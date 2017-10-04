@@ -1,0 +1,34 @@
+buildscript {
+    ext.springBootVersion = "1.5.7.RELEASE"
+    ext.kotlinVersion = "1.1.51"
+    ext.junitVersion = "5.0.0"
+    ext.junitPlatformVersion = "1.0.0"
+
+    repositories { mavenCentral() }
+
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+        classpath "org.jetbrains.kotlin:kotlin-allopen:$kotlinVersion"
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion"
+        classpath "org.junit.platform:junit-platform-gradle-plugin:$junitPlatformVersion"
+    }
+}
+
+repositories { mavenCentral() }
+
+apply plugin: 'kotlin'
+apply plugin: 'kotlin-spring'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'org.junit.platform.gradle.plugin'
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
+    compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
+    compile "org.springframework.boot:spring-boot-starter:$springBootVersion"
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
+    runtime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    runtime "org.junit.platform:junit-platform-console:$junitPlatformVersion"
+}
+
+compileKotlin { kotlinOptions { jvmTarget = "1.8" }}
+compileTestKotlin { kotlinOptions { jvmTarget = "1.8" }}
