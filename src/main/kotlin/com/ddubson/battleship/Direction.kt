@@ -1,5 +1,6 @@
 package com.ddubson.battleship
 
 enum class Direction {
-    VERTICAL
+    VERTICAL,
+    HORIZONTAL
 }

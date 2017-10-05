@@ -24,8 +24,8 @@ class ShipPlacer {
     }
 
     fun place(): List<Cell> {
-        val cells: List<Cell> = (0..this.cellNumber).map { i ->
-            return if (Direction.VERTICAL == direction) {
+        return (0 until this.cellNumber).map { i ->
+            if (Direction.VERTICAL == direction) {
                 Cell(initialCell.x, initialCell.y + i)
             } else {
                 Cell(initialCell.x + i, initialCell.y)
