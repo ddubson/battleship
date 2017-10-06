@@ -31,8 +31,7 @@ class BattleshipGameEngineTest {
         val submarine1 = Submarine()
         val destroyer1 = Destroyer()
 
-        val oceanGrid = OceanGridBuilder
-                            .carrier(carrier1, Position(0, DOWN)).build()
+        val oceanGrid = OceanGrid()
 
         oceanGrid.placeCarrier(ShipPlacer()
                 .ship(carrier)
@@ -45,7 +44,19 @@ class BattleshipGameEngineTest {
 
         val game = Game(player1Arrangement, player2Arrangement)
 
-        val battleshipGameEngine = BattleshipGameEngine()
-        battleshipGameEngine.startGame(game)*/
+        game.start()
+
+        while(!game.finished()) {
+            var turn = game.nextTurn()
+            // prompt player for cell
+            // player's target grid is updated
+            // opponent's oceangrid is updated
+        }
+
+        game.winner()
+
+        */
+
+
     }
 }
