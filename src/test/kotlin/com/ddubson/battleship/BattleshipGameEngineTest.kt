@@ -33,6 +33,12 @@ class BattleshipGameEngineTest {
 
         val oceanGrid = OceanGridBuilder
                             .carrier(carrier1, Position(0, DOWN)).build()
+
+        oceanGrid.placeCarrier(ShipPlacer()
+                .ship(carrier)
+                .initialCell(Cell(0,0))
+                .direction(HORIZONTAL).place())
+
         val targetGrid = TargetGrid()
         val player1Arrangement = PlayerArrangementBuilder.player(player1).oceanGrid().targetGrid(targetGrid).build()
         val player2Arrangement = PlayerArrangementBuilder.player(player2).oceanGrid().targetGrid().build()
