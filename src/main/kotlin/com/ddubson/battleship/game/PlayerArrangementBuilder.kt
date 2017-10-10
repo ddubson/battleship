@@ -1,4 +1,4 @@
-package com.ddubson.battleship
+package com.ddubson.battleship.game
 
 class PlayerArrangementBuilder {
     private var playerArrangement: PlayerArrangement = PlayerArrangement()

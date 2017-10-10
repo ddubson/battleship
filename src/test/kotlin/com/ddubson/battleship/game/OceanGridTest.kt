@@ -1,8 +1,8 @@
-package com.ddubson.battleship
+package com.ddubson.battleship.game
 
-import com.ddubson.battleship.Direction.HORIZONTAL
-import com.ddubson.battleship.Direction.VERTICAL
-import com.ddubson.battleship.ship.*
+import com.ddubson.battleship.game.Direction.HORIZONTAL
+import com.ddubson.battleship.game.Direction.VERTICAL
+import com.ddubson.battleship.game.ship.*
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -121,8 +121,8 @@ class OceanGridTest {
 
         val cruiserPosition: List<Cell> = oceanGrid.cruiserPosition
         val expectedCells = listOf(Cell(0, 0),
-                Cell(0,1),
-                Cell(0,2))
+                Cell(0, 1),
+                Cell(0, 2))
         assertEquals(expectedCells, cruiserPosition)
     }
 
@@ -151,8 +151,8 @@ class OceanGridTest {
 
         val submarinePosition: List<Cell> = oceanGrid.submarinePosition
         val expectedCells = listOf(Cell(0, 0),
-                Cell(0,1),
-                Cell(0,2))
+                Cell(0, 1),
+                Cell(0, 2))
         assertEquals(expectedCells, submarinePosition)
     }
 
@@ -180,7 +180,7 @@ class OceanGridTest {
 
         val destroyerPosition: List<Cell> = oceanGrid.destroyerPosition
         val expectedCells = listOf(Cell(0, 0),
-                Cell(0,1))
+                Cell(0, 1))
         assertEquals(expectedCells, destroyerPosition)
     }
 }

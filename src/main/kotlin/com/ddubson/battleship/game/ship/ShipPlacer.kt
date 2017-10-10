@@ -1,7 +1,7 @@
-package com.ddubson.battleship.ship
+package com.ddubson.battleship.game.ship
 
-import com.ddubson.battleship.Cell
-import com.ddubson.battleship.Direction
+import com.ddubson.battleship.game.Cell
+import com.ddubson.battleship.game.Direction
 
 class ShipPlacer {
     var cellNumber = 0

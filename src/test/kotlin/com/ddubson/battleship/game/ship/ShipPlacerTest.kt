@@ -1,4 +1,4 @@
-package com.ddubson.battleship.ship
+package com.ddubson.battleship.game.ship
 
 import org.junit.jupiter.api.Test
 
