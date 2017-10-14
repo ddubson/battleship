@@ -1,7 +1,5 @@
 package com.ddubson.battleship.game
 
-import com.ddubson.battleship.game.Game
-import com.ddubson.battleship.game.PlayerArrangement
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
