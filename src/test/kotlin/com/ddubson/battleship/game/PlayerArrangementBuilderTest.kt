@@ -1,9 +1,5 @@
 package com.ddubson.battleship.game
 
-import com.ddubson.battleship.game.OceanGrid
-import com.ddubson.battleship.game.Player
-import com.ddubson.battleship.game.PlayerArrangementBuilder
-import com.ddubson.battleship.game.TargetGrid
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
@@ -13,7 +9,7 @@ class PlayerArrangementBuilderTest {
 
     @BeforeEach
     fun before() {
-        player = Player()
+        player = Player("A Player")
     }
 
     @Test

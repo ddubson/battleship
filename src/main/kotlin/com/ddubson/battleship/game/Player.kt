@@ -1,4 +1,3 @@
 package com.ddubson.battleship.game
 
-class Player {
-}
+class Player(val playerName: String)

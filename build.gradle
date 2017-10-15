@@ -28,6 +28,7 @@ dependencies {
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
     runtime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
     runtime "org.junit.platform:junit-platform-console:$junitPlatformVersion"
+    compile "com.nhaarman:mockito-kotlin:1.5.0"
 }
 
 compileKotlin { kotlinOptions { jvmTarget = "1.8" }}

@@ -1,8 +1,36 @@
 package com.ddubson.battleship.game
 
+import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.verify
 import org.junit.jupiter.api.Test
 
 class BattleshipGameEngineTest {
+    @Test
+    fun `engage should print Battleship banner`() {
+        val uiAdapter = mock<BattleshipGameUiAdapter> {}
+        val engine = BattleshipGameEngine(uiAdapter)
+
+        engine.engage()
+
+        verify(uiAdapter).printBanner()
+    }
+
+    @Test
+    fun `engage should create and announce players`() {
+        val player1 = Player("player1")
+        val player2 = Player("player2")
+        val uiAdapter = mock<BattleshipGameUiAdapter> {
+            on { createPlayerOne() } doReturn player1
+            on { createPlayerTwo() } doReturn player2
+        }
+        val engine = BattleshipGameEngine(uiAdapter)
+
+        engine.engage()
+        verify(uiAdapter).announcePlayer(player1)
+        verify(uiAdapter).announcePlayer(player2)
+    }
+
     @Test
     fun `player 1 and player 2 shall load game`() {
         /*
