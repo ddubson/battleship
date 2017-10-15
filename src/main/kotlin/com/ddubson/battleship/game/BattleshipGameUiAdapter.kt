@@ -8,4 +8,10 @@ interface BattleshipGameUiAdapter {
     fun createPlayerTwo(): Player
 
     fun announcePlayer(player: Player)
+
+    fun placeShipBanner(shipType: String)
+
+    fun askForCell(): Cell
+
+    fun askForDirection(): Direction
 }

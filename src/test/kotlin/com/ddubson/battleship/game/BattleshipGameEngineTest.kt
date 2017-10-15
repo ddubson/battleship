@@ -6,10 +6,13 @@ import com.nhaarman.mockito_kotlin.verify
 import org.junit.jupiter.api.Test
 
 class BattleshipGameEngineTest {
+    lateinit var engine: BattleshipGameEngine
+    lateinit var uiAdapter: BattleshipGameUiAdapter
+
     @Test
     fun `engage should print Battleship banner`() {
-        val uiAdapter = mock<BattleshipGameUiAdapter> {}
-        val engine = BattleshipGameEngine(uiAdapter)
+        uiAdapter = mock<BattleshipGameUiAdapter> {}
+        engine = BattleshipGameEngine(uiAdapter)
 
         engine.engage()
 
@@ -20,15 +23,28 @@ class BattleshipGameEngineTest {
     fun `engage should create and announce players`() {
         val player1 = Player("player1")
         val player2 = Player("player2")
-        val uiAdapter = mock<BattleshipGameUiAdapter> {
+
+        uiAdapter = mock<BattleshipGameUiAdapter> {
             on { createPlayerOne() } doReturn player1
             on { createPlayerTwo() } doReturn player2
         }
-        val engine = BattleshipGameEngine(uiAdapter)
+        engine = BattleshipGameEngine(uiAdapter)
 
         engine.engage()
         verify(uiAdapter).announcePlayer(player1)
         verify(uiAdapter).announcePlayer(player2)
+    }
+
+    @Test
+    fun `engage should ask player 1 to place Carrier`() {
+        val player1 = Player("player1")
+        val player2 = Player("player2")
+
+        uiAdapter = mock<BattleshipGameUiAdapter> {
+            on { createPlayerOne() } doReturn player1
+            on { createPlayerTwo() } doReturn player2
+        }
+        engine = BattleshipGameEngine(uiAdapter)
     }
 
     @Test

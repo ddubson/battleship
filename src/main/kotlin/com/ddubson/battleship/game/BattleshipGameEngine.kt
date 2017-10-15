@@ -1,5 +1,8 @@
 package com.ddubson.battleship.game
 
+import com.ddubson.battleship.game.ship.Carrier
+import com.ddubson.battleship.game.ship.ShipPlacer
+
 class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter) {
     fun engage() {
         uiAdapter.printBanner()
@@ -8,11 +11,19 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter) {
         val player2 = uiAdapter.createPlayerTwo()
         uiAdapter.announcePlayer(player2)
 
-        /*oceanGrid.placeCarrier(ShipPlacer()
-                .ship(carrier)
-                .initialCell(Cell(0,0))
-                .direction(HORIZONTAL).place())*/
+        val carrier = Carrier()
+        uiAdapter.placeShipBanner(carrier.type())
+        val carrierInitialCell = uiAdapter.askForCell()
+        val carrierDirection = uiAdapter.askForDirection()
 
-        // val player1Arrangement = PlayerArrangementBuilder.player(player1).oceanGrid().targetGrid(targetGrid).build()
+        val oceanGrid = OceanGrid()
+        val targetGrid = TargetGrid()
+        oceanGrid.placeCarrier(ShipPlacer()
+                .ship(carrier)
+                .initialCell(carrierInitialCell)
+                .direction(carrierDirection).place())
+
+        val player1Arrangement = PlayerArrangementBuilder().player(player1)
+                .oceanGrid(oceanGrid).targetGrid(targetGrid).build()
     }
 }
