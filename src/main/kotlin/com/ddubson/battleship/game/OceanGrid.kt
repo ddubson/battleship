@@ -2,31 +2,18 @@ package com.ddubson.battleship.game
 
 import com.ddubson.battleship.game.ship.Ship
 
-class OceanGrid {
-    val size: Int = 8
-    private val ships = mutableMapOf<String, List<Cell>>()
+interface OceanGrid {
+    fun size(): Int
 
-    fun carrierPosition(): List<Cell> = ships["Carrier"].orEmpty()
+    fun carrierPosition(): List<Cell>
 
-    fun battleshipPosition(): List<Cell> = ships["Battleship"].orEmpty()
+    fun battleshipPosition(): List<Cell>
 
-    fun cruiserPosition(): List<Cell> = ships["Cruiser"].orEmpty()
+    fun cruiserPosition(): List<Cell>
 
-    fun submarinePosition(): List<Cell> = ships["Submarine"].orEmpty()
+    fun submarinePosition(): List<Cell>
 
-    fun destroyerPosition(): List<Cell> = ships["Destroyer"].orEmpty()
+    fun destroyerPosition(): List<Cell>
 
-    fun place(ship: Ship, initialCell: Cell, direction: Direction) {
-        if(ships.containsKey(ship.type())) {
-            throw ShipAlreadyPlacedException()
-        }
-
-        ships.put(ship.type(), (0 until ship.length()).map {
-            if (Direction.VERTICAL == direction) {
-                Cell(initialCell.x, initialCell.y + it)
-            } else {
-                Cell(initialCell.x + it, initialCell.y)
-            }
-        })
-    }
+    fun place(ship: Ship, initialCell: Cell, direction: Direction)
 }

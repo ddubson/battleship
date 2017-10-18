@@ -1,4 +1,4 @@
 package com.ddubson.battleship.game
 
-class StandardTargetGrid {
+class StandardTargetGrid: TargetGrid {
 }

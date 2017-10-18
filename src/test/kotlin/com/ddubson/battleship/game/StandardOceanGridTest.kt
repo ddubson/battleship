@@ -8,18 +8,18 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 
-class OceanGridTest : Spek({
-    given("an ocean grid") {
+class StandardOceanGridTest : Spek({
+    given("a standard ocean grid") {
         on("initial state") {
-            val oceanGrid = OceanGrid()
+            val oceanGrid = StandardOceanGrid()
 
             it("should have a size of 8") {
-                assertEquals(8, oceanGrid.size)
+                assertEquals(8, oceanGrid.size())
             }
         }
 
         on("trying to place a ship twice") {
-            val oceanGrid = OceanGrid()
+            val oceanGrid = StandardOceanGrid()
 
             it("should fail to place ship twice if already exists in grid") {
                 oceanGrid.place(Carrier(), Cell(0, 0), Direction.HORIZONTAL)
@@ -32,7 +32,7 @@ class OceanGridTest : Spek({
         on("placing ship horizontally") {
             val direction = Direction.HORIZONTAL
             val initialCell = Cell(0, 0)
-            val oceanGrid = OceanGrid()
+            val oceanGrid = StandardOceanGrid()
 
             it("should place Carrier") {
                 oceanGrid.place(Carrier(), initialCell, direction)
@@ -72,7 +72,7 @@ class OceanGridTest : Spek({
         on("placing ship vertically") {
             val direction = Direction.VERTICAL
             val initialCell = Cell(0, 0)
-            val oceanGrid = OceanGrid()
+            val oceanGrid = StandardOceanGrid()
 
             it("should place Carrier") {
                 oceanGrid.place(Carrier(), initialCell, direction)

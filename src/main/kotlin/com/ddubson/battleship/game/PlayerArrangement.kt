@@ -1,7 +1,9 @@
 package com.ddubson.battleship.game
 
-class PlayerArrangement {
-    lateinit var player: Player
-    lateinit var oceanGrid: OceanGrid
-    lateinit var targetGrid: TargetGrid
+interface PlayerArrangement {
+    fun player(): Player
+
+    fun oceanGrid(): OceanGrid
+
+    fun targetGrid(): TargetGrid
 }

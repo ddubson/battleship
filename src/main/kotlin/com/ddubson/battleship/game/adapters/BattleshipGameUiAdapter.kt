@@ -1,17 +1,15 @@
-package com.ddubson.battleship.game
+package com.ddubson.battleship.game.adapters
+
+import com.ddubson.battleship.game.Cell
+import com.ddubson.battleship.game.Direction
+import com.ddubson.battleship.game.Player
+import com.ddubson.battleship.game.ship.Ship
 
 interface BattleshipGameUiAdapter {
     fun printBanner()
-
-    fun createPlayerOne(): Player
-
-    fun createPlayerTwo(): Player
-
     fun announcePlayer(player: Player)
-
     fun placeShipBanner(shipType: String)
-
-    fun askForCell(): Cell
-
-    fun askForDirection(): Direction
+    fun askForCell(ship: Ship): Cell
+    fun askForDirection(ship: Ship): Direction
+    fun askForPlayerName(): String
 }
