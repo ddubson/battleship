@@ -1,7 +1,8 @@
 buildscript {
     ext.springBootVersion = "1.5.7.RELEASE"
     ext.kotlinVersion = "1.1.51"
-    ext.junitVersion = "5.0.0"
+    ext.spekVersion = "1.1.5"
+    ext.junitVersion = "5.0.1"
     ext.junitPlatformVersion = "1.0.0"
 
     repositories { mavenCentral() }
@@ -21,15 +22,38 @@ apply plugin: 'kotlin-spring'
 apply plugin: 'org.springframework.boot'
 apply plugin: 'org.junit.platform.gradle.plugin'
 
+bootRun {
+    standardInput = System.in
+}
+
+junitPlatform {
+    filters {
+        engines {
+            include 'spek'
+            include 'junit-jupiter'
+        }
+    }
+}
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre8:$kotlinVersion"
     compile "org.jetbrains.kotlin:kotlin-reflect:$kotlinVersion"
     compile "org.springframework.boot:spring-boot-starter:$springBootVersion"
+
     testCompile "org.junit.jupiter:junit-jupiter-api:$junitVersion"
-    runtime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
-    runtime "org.junit.platform:junit-platform-console:$junitPlatformVersion"
-    compile "com.nhaarman:mockito-kotlin:1.5.0"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junitVersion"
+    testCompile "org.junit.platform:junit-platform-runner:$junitPlatformVersion"
+    testRuntime "org.junit.platform:junit-platform-console:$junitPlatformVersion"
+    testCompile "com.nhaarman:mockito-kotlin:1.5.0"
+    testCompile("org.jetbrains.spek:spek-api:$spekVersion") {
+        exclude group: 'org.jetbrains.kotlin'
+    }
+
+    testRuntime("org.jetbrains.spek:spek-junit-platform-engine:$spekVersion") {
+        exclude group: 'org.junit.platform'
+        exclude group: 'org.jetbrains.kotlin'
+    }
 }
 
-compileKotlin { kotlinOptions { jvmTarget = "1.8" }}
-compileTestKotlin { kotlinOptions { jvmTarget = "1.8" }}
+compileKotlin { kotlinOptions { jvmTarget = "1.8" } }
+compileTestKotlin { kotlinOptions { jvmTarget = "1.8" } }
