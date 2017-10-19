@@ -23,5 +23,15 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
                 .createPlayerArrangement(player2, oceanGrid2, targetGrid2)
 
         val game = gameComponentAdapter.createGame(player1Arrangement, player2Arrangement)
+
+        // wip
+        game.start()
+
+/*        while(!game.finished()) {
+            game.nextPlayer().takeTurn(game.currentOpponent())
+            game.currentOpponent().evaluate
+        }
+
+        game.winner()*/
     }
 }

@@ -3,35 +3,41 @@ package com.ddubson.battleship.cli
 import com.ddubson.battleship.game.Cell
 import com.ddubson.battleship.game.Direction
 import com.ddubson.battleship.game.Direction.HORIZONTAL
+import com.ddubson.battleship.game.Direction.VERTICAL
 import com.ddubson.battleship.game.Player
 import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.ddubson.battleship.game.ship.Ship
 
-class BattleshipGameCLI : BattleshipGameUiAdapter {
+class BattleshipGameCLI(private val cliAdapter: CLIAdapter) : BattleshipGameUiAdapter {
     override fun askForPlayerName(): String {
-        println("Enter player name: ")
-        return readLine()!!
+        cliAdapter.print("Enter player name: ")
+        return cliAdapter.readLine()
     }
 
     override fun askForDirection(ship: Ship): Direction {
-        return HORIZONTAL
+        cliAdapter.print("Enter direction for ${ship.type()} [h|v]: ")
+        val direction = cliAdapter.readLine()
+        return if (direction == "h") {
+            HORIZONTAL
+        } else
+            VERTICAL
     }
 
     override fun askForCell(ship: Ship): Cell {
-        print("Enter initial coordinates for ${ship.type()} (e.g. '1 2' for [1,2]): ")
-        val cellInput = readLine()!!.split(" ")
+        cliAdapter.print("Enter initial coordinates for ${ship.type()} (e.g. '1 2' for [1,2]): ")
+        val cellInput = cliAdapter.readLine().split(" ")
         return Cell(cellInput[0].toInt(), cellInput[1].toInt())
     }
 
     override fun placeShipBanner(shipType: String) {
-        println("Enter $shipType coordinates...")
+        cliAdapter.println("Enter $shipType coordinates...")
     }
 
     override fun announcePlayer(player: Player) {
-        println("Player ${player.playerName} has entered the battlespace!")
+        cliAdapter.println("Player ${player.playerName} has entered the battlespace!")
     }
 
     override fun printBanner() {
-        println("--- Welcome to Battleship! ---")
+        cliAdapter.println("--- Welcome to Battleship! ---")
     }
 }

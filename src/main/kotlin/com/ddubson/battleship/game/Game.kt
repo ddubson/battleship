@@ -1,3 +1,5 @@
 package com.ddubson.battleship.game
 
-interface Game
+interface Game {
+    fun start()
+}

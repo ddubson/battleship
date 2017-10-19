@@ -16,7 +16,7 @@ class BattleshipGameCLIConfig {
             battleshipGameUiAdapter(), gameComponentAdapter())
 
     @Bean
-    fun battleshipGameUiAdapter(): BattleshipGameUiAdapter = BattleshipGameCLI()
+    fun battleshipGameUiAdapter(): BattleshipGameUiAdapter = BattleshipGameCLI(cliAdapter())
 
     @Bean
     fun gameComponentAdapter(): GameComponentAdapter = StandardGameComponentAdapter(
@@ -33,4 +33,7 @@ class BattleshipGameCLIConfig {
 
     @Bean
     fun gameBuilder(): GameBuilder = StandardGameBuilder()
+
+    @Bean
+    fun cliAdapter(): CLIAdapter = StandardCLIAdapter()
 }
