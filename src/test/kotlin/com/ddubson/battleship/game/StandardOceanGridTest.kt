@@ -29,6 +29,18 @@ class StandardOceanGridTest : Spek({
             }
         }
 
+        on("trying to place a ship that overlaps another ship") {
+            val oceanGrid = StandardOceanGrid()
+
+            it("should fail to place ship that overlaps another ship") {
+                oceanGrid.place(Carrier(), Cell(0, 0), Direction.HORIZONTAL)
+
+                assertThrows(ShipOverlapsException::class.java, {
+                    oceanGrid.place(Submarine(), Cell(0, 0), Direction.VERTICAL)
+                })
+            }
+        }
+
         on("placing ship horizontally") {
             val direction = Direction.HORIZONTAL
             val initialCell = Cell(0, 0)
@@ -53,7 +65,7 @@ class StandardOceanGridTest : Spek({
                 oceanGrid.place(Cruiser(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0),
                         Cell(1, 0), Cell(2, 0))
-                assertEquals(expectedCells,  oceanGrid.cruiserPosition())
+                assertEquals(expectedCells, oceanGrid.cruiserPosition())
             }
 
             it("should place Submarine") {
@@ -79,7 +91,7 @@ class StandardOceanGridTest : Spek({
                 val expectedCells = listOf(Cell(0, 0),
                         Cell(0, 1), Cell(0, 2),
                         Cell(0, 3), Cell(0, 4))
-                assertEquals(expectedCells,  oceanGrid.carrierPosition())
+                assertEquals(expectedCells, oceanGrid.carrierPosition())
             }
 
             it("should place Battleship") {

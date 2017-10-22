@@ -23,12 +23,14 @@ class StandardOceanGrid : OceanGrid {
             throw ShipAlreadyPlacedException()
         }
 
-        ships.put(ship.type(), (0 until ship.length()).map {
+        val cells = (0 until ship.length()).map {
             if (Direction.VERTICAL == direction) {
                 Cell(initialCell.x, initialCell.y + it)
             } else {
                 Cell(initialCell.x + it, initialCell.y)
             }
-        })
+        }
+
+        ships.put(ship.type(), cells)
     }
 }

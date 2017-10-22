@@ -23,6 +23,8 @@ class StandardPlayer(private val playerName: String,
     override fun playerName(): String = playerName
 
     override fun takeTurn(opponent: Player) {
-        uiAdapter.askForAttackCell()
+        val cell = uiAdapter.askForAttackCell()
+        //val cellStatus = opponent.receiveAttack(cell)
+        //player.updateTargetGrid(cell)
     }
 }
