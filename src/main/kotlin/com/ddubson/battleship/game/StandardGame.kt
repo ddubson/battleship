@@ -1,7 +1,7 @@
 package com.ddubson.battleship.game
 
-class StandardGame(val player1Arrangement: PlayerArrangement,
-                   val player2Arrangement: PlayerArrangement) : Game {
+class StandardGame(val player1: Player,
+                   val player2: Player) : Game {
     override fun start() {
         TODO("not implemented")
     }

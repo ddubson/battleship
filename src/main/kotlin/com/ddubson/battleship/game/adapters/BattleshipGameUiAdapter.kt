@@ -12,4 +12,5 @@ interface BattleshipGameUiAdapter {
     fun askForCell(ship: Ship): Cell
     fun askForDirection(ship: Ship): Direction
     fun askForPlayerName(): String
+    fun askForAttackCell(): Cell
 }

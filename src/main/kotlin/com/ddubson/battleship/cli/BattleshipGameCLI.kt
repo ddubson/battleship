@@ -9,6 +9,10 @@ import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.ddubson.battleship.game.ship.Ship
 
 class BattleshipGameCLI(private val cliAdapter: CLIAdapter) : BattleshipGameUiAdapter {
+    override fun askForAttackCell(): Cell {
+        return Cell(0,0)
+    }
+
     override fun askForPlayerName(): String {
         cliAdapter.print("Enter player name: ")
         return cliAdapter.readLine()
@@ -34,7 +38,7 @@ class BattleshipGameCLI(private val cliAdapter: CLIAdapter) : BattleshipGameUiAd
     }
 
     override fun announcePlayer(player: Player) {
-        cliAdapter.println("Player ${player.playerName} has entered the battlespace!")
+        cliAdapter.println("Player ${player.playerName()} has entered the battlespace!")
     }
 
     override fun printBanner() {

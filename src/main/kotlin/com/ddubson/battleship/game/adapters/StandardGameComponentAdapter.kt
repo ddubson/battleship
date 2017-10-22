@@ -7,14 +7,22 @@ import com.ddubson.battleship.game.ship.ShipBuilder
 class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapter,
                                    private val shipBuilder: ShipBuilder,
                                    private val gridBuilder: GridBuilder,
-                                   private val playerArrangementBuilder: PlayerArrangementBuilder,
-                                   private val gameBuilder: GameBuilder): GameComponentAdapter {
-    override fun createPlayerOne(): Player = Player(uiAdapter.askForPlayerName())
+                                   private val gameBuilder: GameBuilder,
+                                   private val playerBuilder: PlayerBuilder) : GameComponentAdapter {
+    override fun addOceanGridToPlayer(player: Player, oceanGrid: OceanGrid) {
+        player.setOceanGrid(oceanGrid)
+    }
 
-    override fun createPlayerTwo(): Player = Player(uiAdapter.askForPlayerName())
+    override fun addTargetGridToPlayer(player: Player, targetGrid: TargetGrid) {
+        player.setTargetGrid(targetGrid)
+    }
 
-    override fun createPlayerArrangement(player: Player, oceanGrid: OceanGrid, targetGrid: TargetGrid): PlayerArrangement {
-        return playerArrangementBuilder.newPlayerArrangement(player, oceanGrid, targetGrid)
+    override fun createPlayerOne(): Player {
+        return playerBuilder.newPlayer(uiAdapter.askForPlayerName())
+    }
+
+    override fun createPlayerTwo(): Player {
+        return playerBuilder.newPlayer(uiAdapter.askForPlayerName())
     }
 
     override fun createTargetGrid(player: Player): TargetGrid {
@@ -33,8 +41,8 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
         return oceanGrid
     }
 
-    override fun createGame(player1Arrangement: PlayerArrangement, player2Arrangement: PlayerArrangement): Game {
-        return gameBuilder.newGame(player1Arrangement, player2Arrangement)
+    override fun createGame(player1: Player, player2: Player): Game {
+        return gameBuilder.newGame(player1, player2)
     }
 
     private fun place(grid: OceanGrid, ship: Ship) {

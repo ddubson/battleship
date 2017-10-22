@@ -74,11 +74,13 @@ class BattleshipGameCLITest : Spek({
             }
 
             on("announce player") {
-                val player = Player("Player 1")
+                val player: Player = mock {
+                    on { playerName() } doReturn "Player 1"
+                }
                 battleshipGameCli.announcePlayer(player)
 
                 it("should announce player") {
-                    verify(cliAdapter).println("Player ${player.playerName} has entered the battlespace!")
+                    verify(cliAdapter).println("Player Player 1 has entered the battlespace!")
                 }
             }
 

@@ -20,7 +20,7 @@ class BattleshipGameCLIConfig {
 
     @Bean
     fun gameComponentAdapter(): GameComponentAdapter = StandardGameComponentAdapter(
-            battleshipGameUiAdapter(), shipBuilder(), gridBuilder(), playerArrangementBuilder(), gameBuilder())
+            battleshipGameUiAdapter(), shipBuilder(), gridBuilder(), gameBuilder(), playerBuilder())
 
     @Bean
     fun gridBuilder(): GridBuilder = StandardGridBuilder()
@@ -29,11 +29,11 @@ class BattleshipGameCLIConfig {
     fun shipBuilder(): ShipBuilder = StandardShipBuilder()
 
     @Bean
-    fun playerArrangementBuilder(): PlayerArrangementBuilder = StandardPlayerArrangementBuilder()
-
-    @Bean
     fun gameBuilder(): GameBuilder = StandardGameBuilder()
 
     @Bean
     fun cliAdapter(): CLIAdapter = StandardCLIAdapter()
+
+    @Bean
+    fun playerBuilder(): PlayerBuilder = StandardPlayerBuilder(battleshipGameUiAdapter())
 }

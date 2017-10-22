@@ -13,16 +13,16 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
         uiAdapter.announcePlayer(player2)
 
         val oceanGrid1 = gameComponentAdapter.createOceanGrid(player1)
+        gameComponentAdapter.addOceanGridToPlayer(player1, oceanGrid1)
         val targetGrid1 = gameComponentAdapter.createTargetGrid(player1)
-        val player1Arrangement = gameComponentAdapter
-                .createPlayerArrangement(player1, oceanGrid1, targetGrid1)
+        gameComponentAdapter.addTargetGridToPlayer(player1, targetGrid1)
 
         val oceanGrid2 = gameComponentAdapter.createOceanGrid(player2)
+        gameComponentAdapter.addOceanGridToPlayer(player2, oceanGrid2)
         val targetGrid2 = gameComponentAdapter.createTargetGrid(player2)
-        val player2Arrangement = gameComponentAdapter
-                .createPlayerArrangement(player2, oceanGrid2, targetGrid2)
+        gameComponentAdapter.addTargetGridToPlayer(player2, targetGrid2)
 
-        val game = gameComponentAdapter.createGame(player1Arrangement, player2Arrangement)
+        val game = gameComponentAdapter.createGame(player1, player2)
 
         // wip
         game.start()
