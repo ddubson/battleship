@@ -44,9 +44,9 @@ class StandardOceanGridTest : Spek({
         on("placing ship horizontally") {
             val direction = Direction.HORIZONTAL
             val initialCell = Cell(0, 0)
-            val oceanGrid = StandardOceanGrid()
 
             it("should place Carrier") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Carrier(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0),
                         Cell(1, 0), Cell(2, 0),
@@ -55,6 +55,7 @@ class StandardOceanGridTest : Spek({
             }
 
             it("should place Battleship") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Battleship(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0),
                         Cell(1, 0), Cell(2, 0), Cell(3, 0))
@@ -62,6 +63,7 @@ class StandardOceanGridTest : Spek({
             }
 
             it("should place Cruiser") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Cruiser(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0),
                         Cell(1, 0), Cell(2, 0))
@@ -69,12 +71,14 @@ class StandardOceanGridTest : Spek({
             }
 
             it("should place Submarine") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Submarine(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0), Cell(1, 0), Cell(2, 0))
                 assertEquals(expectedCells, oceanGrid.submarinePosition())
             }
 
             it("should place Destroyer") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Destroyer(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0), Cell(1, 0))
                 assertEquals(expectedCells, oceanGrid.destroyerPosition())
@@ -84,9 +88,9 @@ class StandardOceanGridTest : Spek({
         on("placing ship vertically") {
             val direction = Direction.VERTICAL
             val initialCell = Cell(0, 0)
-            val oceanGrid = StandardOceanGrid()
 
             it("should place Carrier") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Carrier(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0),
                         Cell(0, 1), Cell(0, 2),
@@ -95,6 +99,7 @@ class StandardOceanGridTest : Spek({
             }
 
             it("should place Battleship") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Battleship(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0),
                         Cell(0, 1), Cell(0, 2), Cell(0, 3))
@@ -102,6 +107,7 @@ class StandardOceanGridTest : Spek({
             }
 
             it("should place Cruiser") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Cruiser(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0),
                         Cell(0, 1), Cell(0, 2))
@@ -109,12 +115,14 @@ class StandardOceanGridTest : Spek({
             }
 
             it("should place Submarine") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Submarine(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0), Cell(0, 1), Cell(0, 2))
                 assertEquals(expectedCells, oceanGrid.submarinePosition())
             }
 
             it("should place Destroyer") {
+                val oceanGrid = StandardOceanGrid()
                 oceanGrid.place(Destroyer(), initialCell, direction)
                 val expectedCells = listOf(Cell(0, 0), Cell(0, 1))
                 assertEquals(expectedCells, oceanGrid.destroyerPosition())
