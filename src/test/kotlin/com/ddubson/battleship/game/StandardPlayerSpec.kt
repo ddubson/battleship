@@ -4,11 +4,9 @@ import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
+import junit.framework.Assert.fail
 import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.given
-import org.jetbrains.spek.api.dsl.it
-import org.jetbrains.spek.api.dsl.on
-import org.jetbrains.spek.api.dsl.xit
+import org.jetbrains.spek.api.dsl.*
 import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class StandardPlayerSpec : Spek({
@@ -20,7 +18,7 @@ internal class StandardPlayerSpec : Spek({
             }
         }
 
-        on("taking a turn") {
+        xon("taking a turn") {
             val attackedCell = Cell(0,1)
             val uiAdapter: BattleshipGameUiAdapter = mock {
                 on { askForAttackCell() } doReturn attackedCell
@@ -37,12 +35,12 @@ internal class StandardPlayerSpec : Spek({
                 verify(uiAdapter).askForAttackCell()
             }
 
-            it("should update the target grid of the player") {
-
+            xit("should update the target grid of the player") {
+                fail()
             }
 
             xit("should update the ocean grid of the opponent") {
-
+                fail()
             }
         }
     }

@@ -28,10 +28,13 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
         game.start()
 
 /*        while(!game.finished()) {
-            game.nextPlayer().takeTurn(game.currentOpponent())
-            game.currentOpponent().evaluate
+            val attacker = game.nextPlayer()
+            val opponent = game.currentOpponent()
+            attacker.takeTurn(opponent)
+            opponent.evaluate()
         }
 
-        game.winner()*/
+        uiAdapter.announceWinner(game.winner())
+        */
     }
 }
