@@ -49,6 +49,16 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
         uiAdapter.placeShipBanner(ship.type())
         val initialCell = uiAdapter.askForCell(ship)
         val direction = uiAdapter.askForDirection(ship)
-        grid.place(ship, initialCell, direction)
+
+        try {
+            grid.place(ship, initialCell, direction)
+        } catch (ex: ShipOverlapsException) {
+            warnOfShipOverlap(grid, ship)
+        }
+    }
+
+    private fun warnOfShipOverlap(grid: OceanGrid, ship: Ship) {
+        uiAdapter.displayWarning("${ship.type()} overlaps another! please choose different coordinates.")
+        place(grid, ship)
     }
 }

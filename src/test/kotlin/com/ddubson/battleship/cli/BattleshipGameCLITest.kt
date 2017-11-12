@@ -65,31 +65,31 @@ class BattleshipGameCLITest : Spek({
             val cliAdapter: CLIAdapter = mock {}
             val battleshipGameCli = BattleshipGameCLI(cliAdapter)
 
-            on("display place ship banner") {
+            it("should display place ship banner notice") {
                 battleshipGameCli.placeShipBanner("Carrier")
-
-                it("should display place ship banner notice") {
-                    verify(cliAdapter).println("Enter Carrier coordinates...")
-                }
+                verify(cliAdapter).println("Enter Carrier coordinates...")
             }
 
-            on("announce player") {
+            it("should announce player") {
                 val player: Player = mock {
                     on { playerName() } doReturn "Player 1"
                 }
                 battleshipGameCli.announcePlayer(player)
 
-                it("should announce player") {
-                    verify(cliAdapter).println("Player Player 1 has entered the battlespace!")
-                }
+                verify(cliAdapter).println("Player Player 1 has entered the battlespace!")
             }
 
-            on("print game banner") {
+            it("should print the game banner") {
                 battleshipGameCli.printBanner()
-                it("should print the game banner") {
-                    verify(cliAdapter).println("--- Welcome to Battleship! ---")
-                }
+                verify(cliAdapter).println("--- Welcome to Battleship! ---")
+            }
+
+            it("should display warnings") {
+                val message = "Some message"
+                battleshipGameCli.displayWarning(message)
+                verify(cliAdapter).println(message)
             }
         }
+
     }
 })

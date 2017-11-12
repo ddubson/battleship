@@ -9,8 +9,12 @@ import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.ddubson.battleship.game.ship.Ship
 
 class BattleshipGameCLI(private val cliAdapter: CLIAdapter) : BattleshipGameUiAdapter {
+    override fun displayWarning(message: String) {
+        cliAdapter.println(message)
+    }
+
     override fun askForAttackCell(): Cell {
-        return Cell(0,0)
+        return Cell(0, 0)
     }
 
     override fun askForPlayerName(): String {

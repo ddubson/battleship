@@ -3,6 +3,7 @@ package com.ddubson.battleship.game.adapters
 import com.ddubson.battleship.game.*
 import com.ddubson.battleship.game.ship.*
 import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.doThrow
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.jetbrains.spek.api.Spek
@@ -217,6 +218,43 @@ class StandardGameComponentAdapterSpec : Spek({
 
             it("should return player") {
                 assertEquals(player, actualPlayer)
+            }
+        }
+
+        on("placing a ship over another") {
+            val ship = Carrier()
+            val badCell = Cell(0,0)
+            val goodCell = Cell(0, 1)
+            val direction = Direction.VERTICAL
+
+            val oceanGrid: OceanGrid = mock {
+                on { place(ship, badCell, direction) } doThrow ShipOverlapsException()
+            }
+            val uiAdapter: BattleshipGameUiAdapter = mock {
+                on { askForCell(ship) } doReturn badCell doReturn goodCell
+                on { askForDirection(ship) } doReturn direction
+            }
+            val shipBuilder: ShipBuilder = mock {
+                on { newCarrier() } doReturn ship
+                on { newCruiser() } doReturn Cruiser()
+                on { newDestroyer() } doReturn Destroyer()
+                on { newSubmarine() } doReturn Submarine()
+                on { newBattleship() } doReturn Battleship()
+            }
+            val gridBuilder: GridBuilder = mock {
+                on { newOceanGrid() } doReturn oceanGrid
+            }
+
+            val player = StandardPlayer("", uiAdapter)
+            val gameComponentAdapter = StandardGameComponentAdapter(uiAdapter,
+                    shipBuilder, gridBuilder, mock {}, mock {})
+
+            gameComponentAdapter.createOceanGrid(player)
+
+            it("should prompt the user to choose another space") {
+                verify(oceanGrid).place(ship, badCell, direction)
+                verify(uiAdapter).displayWarning("Carrier overlaps another! please choose different coordinates.")
+                verify(oceanGrid).place(ship, goodCell, direction)
             }
         }
     }
