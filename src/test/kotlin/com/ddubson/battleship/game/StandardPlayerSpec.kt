@@ -4,9 +4,10 @@ import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
-import junit.framework.Assert.fail
 import org.jetbrains.spek.api.Spek
-import org.jetbrains.spek.api.dsl.*
+import org.jetbrains.spek.api.dsl.given
+import org.jetbrains.spek.api.dsl.it
+import org.jetbrains.spek.api.dsl.on
 import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class StandardPlayerSpec : Spek({
@@ -18,29 +19,32 @@ internal class StandardPlayerSpec : Spek({
             }
         }
 
-        xon("taking a turn") {
-            val attackedCell = Cell(0,1)
+        on("taking a turn") {
+            val attackedCell = Cell(0, 1)
             val uiAdapter: BattleshipGameUiAdapter = mock {
                 on { askForAttackCell() } doReturn attackedCell
             }
             val player = StandardPlayer("A Player", uiAdapter)
+            val cellStatus = StandardCellStatus()
+            val targetGrid: TargetGrid = mock {}
+            val opponent: Player = mock {
+                on { receiveAttack(attackedCell) } doReturn cellStatus
+            }
+
             player.setOceanGrid(StandardOceanGrid())
-            player.setTargetGrid(StandardTargetGrid())
-
-            val opponent: Player = mock {}
-
+            player.setTargetGrid(targetGrid)
             player.takeTurn(opponent)
 
             it("should ask the player to enter the cell to hit") {
                 verify(uiAdapter).askForAttackCell()
             }
 
-            xit("should update the target grid of the player") {
-                fail()
+            it("should update the ocean grid of the opponent") {
+                verify(opponent).receiveAttack(attackedCell)
             }
 
-            xit("should update the ocean grid of the opponent") {
-                fail()
+            it("should update the target grid of the player") {
+                verify(targetGrid).markWithStatus(attackedCell, cellStatus)
             }
         }
     }

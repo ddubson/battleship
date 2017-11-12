@@ -21,7 +21,7 @@ class StandardPlayer(private val playerName: String,
 
     override fun playerName(): String = playerName
 
-    fun updateTargetGrid(cell: Cell, cellStatus: CellStatus) {
+    private fun updateTargetGrid(cell: Cell, cellStatus: CellStatus) {
         this.targetGrid!!.markWithStatus(cell, cellStatus)
     }
 
