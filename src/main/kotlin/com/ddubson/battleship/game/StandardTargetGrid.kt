@@ -1,17 +1,20 @@
 package com.ddubson.battleship.game
 
-class StandardTargetGrid: TargetGrid {
+class StandardTargetGrid : TargetGrid {
     private val size: Int = 8
-    private val grid: Array2D<CellStatus>
+    private val grid: Array2D<TargetCellStatus>
 
     init {
-        val array = Array(size, { Array<CellStatus>(size, { StandardCellStatus() }) })
+        val array = Array(size, { Array(size, { TargetCellStatus.OPEN }) })
         grid = Array2D(size, size, array)
     }
 
-    override fun markWithStatus(cell: Cell, cellStatus: CellStatus) {
-        grid[cell.x, cell.y] = cellStatus
+    override fun markWithStatus(cell: Cell, targetCellStatus: TargetCellStatus) {
+        if (grid[cell.x, cell.y] != TargetCellStatus.OPEN) {
+            throw CellAlreadyEngagedException()
+        } else
+            grid[cell.x, cell.y] = targetCellStatus
     }
 
-    override fun statusOf(cell: Cell): CellStatus = grid[cell.x, cell.y]
+    override fun statusOf(cell: Cell): TargetCellStatus = grid[cell.x, cell.y]
 }

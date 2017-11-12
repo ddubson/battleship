@@ -1,5 +1,18 @@
 package com.ddubson.battleship.game
 
-interface CellStatus {
-    fun isAHit(): Boolean
+enum class TargetCellStatus {
+    OPEN,
+    HIT,
+    MISS
+}
+
+enum class OceanCellStatus {
+    OPEN,
+    ENGAGED,
+    HIT
+}
+
+enum class AttackStatus {
+    MISS,
+    HIT
 }

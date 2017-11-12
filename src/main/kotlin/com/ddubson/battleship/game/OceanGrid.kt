@@ -16,4 +16,8 @@ interface OceanGrid {
     fun destroyerPosition(): List<Cell>
 
     fun place(ship: Ship, initialCell: Cell, direction: Direction)
+
+    fun bombard(cell: Cell): AttackStatus
+
+    fun statusOf(cell: Cell): OceanCellStatus
 }

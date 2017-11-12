@@ -1,11 +1,13 @@
 package com.ddubson.battleship.game
 
+import com.ddubson.battleship.game.TargetCellStatus.HIT
+import com.ddubson.battleship.game.TargetCellStatus.MISS
 import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 
 class StandardPlayer(private val playerName: String,
-                     private val uiAdapter: BattleshipGameUiAdapter) : Player, TakeTurnable {
-    private  var oceanGrid: OceanGrid? = null
-    private  var targetGrid: TargetGrid? = null
+                     private val uiAdapter: BattleshipGameUiAdapter) : Player {
+    private var oceanGrid: OceanGrid? = null
+    private var targetGrid: TargetGrid? = null
 
     override fun targetGrid(): TargetGrid? = targetGrid
 
@@ -21,31 +23,33 @@ class StandardPlayer(private val playerName: String,
 
     override fun playerName(): String = playerName
 
-    private fun updateTargetGrid(cell: Cell, cellStatus: CellStatus) {
-        this.targetGrid!!.markWithStatus(cell, cellStatus)
+    private fun updateTargetGrid(cell: Cell, targetCellStatus: TargetCellStatus) {
+        this.targetGrid!!.markWithStatus(cell, targetCellStatus)
     }
 
-    override fun takeTurn(opponent: Player) {
+    override fun attack(opponent: Player) {
         var cell: Cell
 
         do {
             cell = uiAdapter.askForAttackCell()
         } while (cellHasAlreadyBeenFiredAt(cell))
 
-        // update opponent ocean grid
         val cellStatus = opponent.receiveAttack(cell)
 
-        // update target grid
         this.updateTargetGrid(cell, cellStatus)
 
     }
 
-    override fun receiveAttack(cell: Cell): CellStatus {
-        // Check ocean grid if cell hits upon a ship
-        return StandardCellStatus()
+    override fun receiveAttack(cell: Cell): TargetCellStatus {
+        val status = this.oceanGrid!!.bombard(cell)
+        return when(status) {
+            AttackStatus.HIT -> HIT
+            else -> MISS
+        }
     }
 
     private fun cellHasAlreadyBeenFiredAt(cell: Cell): Boolean {
-        return false
+        val status =  this.targetGrid!!.statusOf(cell)
+        return status == HIT || status == MISS
     }
 }

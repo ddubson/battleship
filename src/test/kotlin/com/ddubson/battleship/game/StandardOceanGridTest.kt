@@ -8,7 +8,7 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 
-class StandardOceanGridTest : Spek({
+internal class StandardOceanGridTest : Spek({
     given("a standard ocean grid") {
         on("initial state") {
             val oceanGrid = StandardOceanGrid()
@@ -38,6 +38,25 @@ class StandardOceanGridTest : Spek({
                 assertThrows(ShipOverlapsException::class.java, {
                     oceanGrid.place(Submarine(), Cell(0, 0), Direction.VERTICAL)
                 })
+            }
+        }
+
+        on("bombard") {
+            it("should return a status of 'miss' when no ships hit.") {
+                val oceanGrid = StandardOceanGrid()
+                val attackedCell = Cell(0, 0)
+
+                assertEquals(AttackStatus.MISS, oceanGrid.bombard(attackedCell))
+                assertEquals(OceanCellStatus.OPEN, oceanGrid.statusOf(attackedCell))
+            }
+
+            it("should return a status of 'hit' when ship is hit.") {
+                val oceanGrid = StandardOceanGrid()
+                val attackedCell = Cell(0, 0)
+                oceanGrid.place(Destroyer(), Cell(0, 0), Direction.HORIZONTAL)
+
+                assertEquals(AttackStatus.HIT, oceanGrid.bombard(attackedCell))
+                assertEquals(OceanCellStatus.HIT, oceanGrid.statusOf(attackedCell))
             }
         }
 

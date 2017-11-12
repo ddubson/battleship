@@ -30,7 +30,7 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
 /*        while(!game.finished()) {
             val attacker = game.nextPlayer()
             val opponent = game.currentOpponent()
-            attacker.takeTurn(opponent)
+            attacker.attack(opponent)
             opponent.evaluate()
         }
 
