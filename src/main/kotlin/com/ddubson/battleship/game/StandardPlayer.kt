@@ -6,8 +6,13 @@ import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 
 class StandardPlayer(private val playerName: String,
                      private val uiAdapter: BattleshipGameUiAdapter) : Player {
+
     private var oceanGrid: OceanGrid? = null
     private var targetGrid: TargetGrid? = null
+
+    override fun hasShipsLeft(): Boolean {
+        return this.oceanGrid!!.hasEngagedCells()
+    }
 
     override fun targetGrid(): TargetGrid? = targetGrid
 

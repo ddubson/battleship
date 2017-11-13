@@ -20,4 +20,6 @@ interface OceanGrid {
     fun bombard(cell: Cell): AttackStatus
 
     fun statusOf(cell: Cell): OceanCellStatus
+
+    fun hasEngagedCells(): Boolean
 }

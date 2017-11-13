@@ -3,7 +3,6 @@ package com.ddubson.battleship.game
 import com.ddubson.battleship.game.ship.Ship
 
 class StandardOceanGrid : OceanGrid {
-
     private val size: Int = 8
     private val ships = mutableMapOf<String, List<Cell>>()
     private val grid: Array2D<OceanCellStatus>
@@ -26,6 +25,15 @@ class StandardOceanGrid : OceanGrid {
     override fun destroyerPosition(): List<Cell> = ships["Destroyer"].orEmpty()
 
     override fun statusOf(cell: Cell): OceanCellStatus = this.grid[cell.x, cell.y]
+
+    override fun hasEngagedCells(): Boolean {
+        grid.forEach {
+            if(it == OceanCellStatus.ENGAGED)
+                return true
+        }
+
+        return false
+    }
 
     override fun bombard(cell: Cell): AttackStatus {
         val cellStatus = this.grid[cell.x, cell.y]

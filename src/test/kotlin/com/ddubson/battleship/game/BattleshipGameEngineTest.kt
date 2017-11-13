@@ -11,15 +11,22 @@ import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
 class BattleshipGameEngineTest : Spek({
-    val player1: Player = mock{}
-    val player2: Player = mock{}
-
     given("battleship game engine") {
         val oceanGrid1: OceanGrid = mock {}
         val targetGrid1: TargetGrid = mock {}
         val oceanGrid2: OceanGrid = mock {}
         val targetGrid2: TargetGrid = mock {}
-        val game1: Game = mock {}
+
+        val player1: Player = mock {
+            on { hasShipsLeft() } doReturn false
+        }
+        val player2: Player = mock {
+            on { hasShipsLeft() } doReturn true
+        }
+        val game1: Game = mock {
+            on { nextPlayer() } doReturn player1 doReturn player2
+            on { currentOpponent() } doReturn player2 doReturn player1
+        }
 
         val gameComponentAdapter: GameComponentAdapter = mock {
             on { createOceanGrid(player1) } doReturn oceanGrid1
@@ -76,8 +83,9 @@ class BattleshipGameEngineTest : Spek({
                 verify(gameComponentAdapter).createGame(player1, player2)
             }
 
-            it("should start the game") {
-                verify(game1).start()
+            it("should choose player turns and continue until game is finished") {
+                verify(player1).attack(player2)
+                verify(player2).attack(player1)
             }
         }
     }

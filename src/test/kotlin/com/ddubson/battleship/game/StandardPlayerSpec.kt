@@ -9,6 +9,8 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
+import org.junit.Assert.assertFalse
+import org.junit.Assert.assertTrue
 import org.junit.jupiter.api.Assertions.assertEquals
 
 internal class StandardPlayerSpec : Spek({
@@ -97,5 +99,26 @@ internal class StandardPlayerSpec : Spek({
             }
         }
 
+        on("evaluating if any ships are left in battlespace") {
+            val player = StandardPlayer("p1", mock {})
+
+            it("should evaluate to true if there are ships left") {
+                val oceanGrid: OceanGrid = mock {
+                    on { hasEngagedCells() } doReturn true
+                }
+                player.setOceanGrid(oceanGrid)
+
+                assertTrue(player.hasShipsLeft())
+            }
+
+            it("should evaluate to false if there are no ships left") {
+                val oceanGrid: OceanGrid = mock {
+                    on { hasEngagedCells() } doReturn false
+                }
+                player.setOceanGrid(oceanGrid)
+
+                assertFalse(player.hasShipsLeft())
+            }
+        }
     }
 })

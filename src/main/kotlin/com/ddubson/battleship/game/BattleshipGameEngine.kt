@@ -24,12 +24,14 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
 
         val game = gameComponentAdapter.createGame(player1, player2)
 
-        // wip
-        game.start()
-
-/*        while(!game.finished()) {
+        do {
             val attacker = game.nextPlayer()
             val opponent = game.currentOpponent()
+
+            attacker.attack(opponent)
+        } while (opponent.hasShipsLeft())
+
+/*        while(!game.finished()) {
             attacker.attack(opponent)
             opponent.evaluate()
         }

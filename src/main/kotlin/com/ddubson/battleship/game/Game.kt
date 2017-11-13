@@ -1,5 +1,6 @@
 package com.ddubson.battleship.game
 
 interface Game {
-    fun start()
+    fun nextPlayer(): Player
+    fun currentOpponent(): Player
 }

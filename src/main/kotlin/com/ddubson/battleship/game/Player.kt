@@ -6,4 +6,5 @@ interface Player: Attackable {
     fun setOceanGrid(oceanGrid: OceanGrid)
     fun targetGrid(): TargetGrid?
     fun setTargetGrid(targetGrid: TargetGrid)
+    fun hasShipsLeft(): Boolean
 }

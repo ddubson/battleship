@@ -5,8 +5,7 @@ import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.*
 
 internal class StandardOceanGridTest : Spek({
     given("a standard ocean grid") {
@@ -57,6 +56,22 @@ internal class StandardOceanGridTest : Spek({
 
                 assertEquals(AttackStatus.HIT, oceanGrid.bombard(attackedCell))
                 assertEquals(OceanCellStatus.HIT, oceanGrid.statusOf(attackedCell))
+            }
+        }
+
+        on("identifying if grid has any engaged cells left") {
+            it("should return true if there are engaged cells are present") {
+                val oceanGrid = StandardOceanGrid()
+                oceanGrid.place(Carrier(), Cell(0, 0), Direction.HORIZONTAL)
+                assertTrue(oceanGrid.hasEngagedCells())
+            }
+
+            it("should return false if there are no engaged cells") {
+                val oceanGrid = StandardOceanGrid()
+                oceanGrid.place(Destroyer(), Cell(0, 1), Direction.HORIZONTAL)
+                oceanGrid.bombard(Cell(0, 1))
+                oceanGrid.bombard(Cell(1, 1))
+                assertFalse(oceanGrid.hasEngagedCells())
             }
         }
 
