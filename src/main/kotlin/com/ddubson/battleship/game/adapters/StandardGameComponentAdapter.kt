@@ -17,17 +17,13 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
         player.setTargetGrid(targetGrid)
     }
 
-    override fun createPlayerOne(): Player {
-        return playerBuilder.newPlayer(uiAdapter.askForPlayerName())
-    }
+    override fun createPlayerOne(): Player = playerBuilder.newPlayer(uiAdapter.askForPlayerName())
 
-    override fun createPlayerTwo(): Player {
-        return playerBuilder.newPlayer(uiAdapter.askForPlayerName())
-    }
+    override fun createPlayerTwo(): Player = playerBuilder.newPlayer(uiAdapter.askForPlayerName())
 
-    override fun createTargetGrid(player: Player): TargetGrid {
-        return gridBuilder.newTargetGrid()
-    }
+    override fun createTargetGrid(player: Player): TargetGrid = gridBuilder.newTargetGrid()
+
+    override fun createGame(player1: Player, player2: Player): Game = gameBuilder.newGame(player1, player2)
 
     override fun createOceanGrid(player: Player): OceanGrid {
         val oceanGrid = gridBuilder.newOceanGrid()
@@ -41,10 +37,6 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
         return oceanGrid
     }
 
-    override fun createGame(player1: Player, player2: Player): Game {
-        return gameBuilder.newGame(player1, player2)
-    }
-
     private fun place(grid: OceanGrid, ship: Ship) {
         uiAdapter.placeShipBanner(ship.type())
         val initialCell = uiAdapter.askForCell(ship)
@@ -55,6 +47,8 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
         } catch (ex: ShipOverlapsException) {
             warnOfShipOverlap(grid, ship)
         }
+
+        uiAdapter.displayOceanGrid(grid)
     }
 
     private fun warnOfShipOverlap(grid: OceanGrid, ship: Ship) {

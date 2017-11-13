@@ -4,12 +4,16 @@ import com.ddubson.battleship.game.ship.Ship
 
 class StandardOceanGrid : OceanGrid {
     private val size: Int = 8
+
     private val ships = mutableMapOf<String, List<Cell>>()
     private val grid: Array2D<OceanCellStatus>
-
     init {
         val array = Array(size, { Array(size, { OceanCellStatus.OPEN }) })
         grid = Array2D(size, size, array)
+    }
+
+    override fun as2DString(): String {
+        TODO()
     }
 
     override fun size(): Int = this.size

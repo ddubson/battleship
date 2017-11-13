@@ -2,6 +2,7 @@ package com.ddubson.battleship.cli
 
 import com.ddubson.battleship.game.Cell
 import com.ddubson.battleship.game.Direction
+import com.ddubson.battleship.game.OceanGrid
 import com.ddubson.battleship.game.Player
 import com.ddubson.battleship.game.ship.Carrier
 import com.nhaarman.mockito_kotlin.doReturn
@@ -88,6 +89,17 @@ class BattleshipGameCLITest : Spek({
                 val message = "Some message"
                 battleshipGameCli.displayWarning(message)
                 verify(cliAdapter).println(message)
+            }
+
+            it("should display an ocean grid") {
+                val printedOceanGrid = "grid..."
+                val oceanGrid: OceanGrid = mock {
+                    on { as2DString() } doReturn printedOceanGrid
+                }
+
+                battleshipGameCli.displayOceanGrid(oceanGrid)
+
+                verify(cliAdapter).println(printedOceanGrid)
             }
         }
 

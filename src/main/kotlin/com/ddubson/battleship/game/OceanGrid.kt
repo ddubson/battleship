@@ -22,4 +22,6 @@ interface OceanGrid {
     fun statusOf(cell: Cell): OceanCellStatus
 
     fun hasEngagedCells(): Boolean
+
+    fun as2DString(): String
 }

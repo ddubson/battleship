@@ -162,5 +162,28 @@ internal class StandardOceanGridTest : Spek({
                 assertEquals(expectedCells, oceanGrid.destroyerPosition())
             }
         }
+
+        on("generating a 2D string representation") {
+            val oceanGrid = StandardOceanGrid()
+            oceanGrid.place(Carrier(), Cell(0,0), Direction.VERTICAL)
+
+            val string2d = oceanGrid.as2DString()
+
+            it("should display the string") {
+                assertEquals("""
+                      0 1 2 3 4 5 6 7
+                    + - - - - - - - - +
+                  0 | O               |
+                  1 | O               |
+                  2 | O               |
+                  3 | O               |
+                  4 | O               |
+                  5 |                 |
+                  6 |                 |
+                  7 |                 |
+                    + - - - - - - - - +
+                """.trimIndent(), string2d)
+            }
+        }
     }
 })

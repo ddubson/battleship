@@ -4,18 +4,21 @@ import com.ddubson.battleship.game.Cell
 import com.ddubson.battleship.game.Direction
 import com.ddubson.battleship.game.Direction.HORIZONTAL
 import com.ddubson.battleship.game.Direction.VERTICAL
+import com.ddubson.battleship.game.OceanGrid
 import com.ddubson.battleship.game.Player
 import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.ddubson.battleship.game.ship.Ship
 
 class BattleshipGameCLI(private val cliAdapter: CLIAdapter) : BattleshipGameUiAdapter {
+    override fun displayOceanGrid(oceanGrid: OceanGrid) {
+        cliAdapter.println(oceanGrid.as2DString())
+    }
+
     override fun displayWarning(message: String) {
         cliAdapter.println(message)
     }
 
-    override fun askForAttackCell(): Cell {
-        return Cell(0, 0)
-    }
+    override fun askForAttackCell(): Cell = TODO()
 
     override fun askForPlayerName(): String {
         cliAdapter.print("Enter player name: ")

@@ -2,10 +2,7 @@ package com.ddubson.battleship.game.adapters
 
 import com.ddubson.battleship.game.*
 import com.ddubson.battleship.game.ship.*
-import com.nhaarman.mockito_kotlin.doReturn
-import com.nhaarman.mockito_kotlin.doThrow
-import com.nhaarman.mockito_kotlin.mock
-import com.nhaarman.mockito_kotlin.verify
+import com.nhaarman.mockito_kotlin.*
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
@@ -55,6 +52,10 @@ class StandardGameComponentAdapterSpec : Spek({
 
             it("should create an empty Ocean Grid") {
                 verify(gridBuilder).newOceanGrid()
+            }
+
+            it("should display ocean grid as the user is placing the ships") {
+                verify(uiAdapter, times(5)).displayOceanGrid(oceanGrid)
             }
 
             it("should place Carrier") {
