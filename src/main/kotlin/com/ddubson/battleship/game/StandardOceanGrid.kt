@@ -7,13 +7,31 @@ class StandardOceanGrid : OceanGrid {
 
     private val ships = mutableMapOf<String, List<Cell>>()
     private val grid: Array2D<OceanCellStatus>
+
     init {
         val array = Array(size, { Array(size, { OceanCellStatus.OPEN }) })
         grid = Array2D(size, size, array)
     }
 
     override fun as2DString(): String {
-        TODO()
+        var gridVis = "    0 1 2 3 4 5 6 7\n  + - - - - - - - - +\n"
+
+        (0 until grid.xSize).forEach { y ->
+            gridVis = gridVis.plus("$y | ")
+            (0 until grid.ySize).forEach { x ->
+                val symbol = when(grid[x,y]) {
+                    OceanCellStatus.OPEN -> " "
+                    OceanCellStatus.ENGAGED -> "O"
+                    OceanCellStatus.HIT -> "X"
+                }
+                gridVis = gridVis.plus("$symbol ")
+            }
+            gridVis = gridVis.plus("|\n")
+        }
+
+        gridVis = gridVis.plus("  + - - - - - - - - +").trimIndent()
+
+        return gridVis
     }
 
     override fun size(): Int = this.size
@@ -32,7 +50,7 @@ class StandardOceanGrid : OceanGrid {
 
     override fun hasEngagedCells(): Boolean {
         grid.forEach {
-            if(it == OceanCellStatus.ENGAGED)
+            if (it == OceanCellStatus.ENGAGED)
                 return true
         }
 
