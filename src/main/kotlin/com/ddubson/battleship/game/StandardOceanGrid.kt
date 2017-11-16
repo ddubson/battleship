@@ -1,15 +1,15 @@
 package com.ddubson.battleship.game
 
+import com.ddubson.battleship.game.OceanCellStatus.*
 import com.ddubson.battleship.game.ship.Ship
 
 class StandardOceanGrid : OceanGrid {
     private val size: Int = 8
-
     private val ships = mutableMapOf<String, List<Cell>>()
     private val grid: Array2D<OceanCellStatus>
 
     init {
-        val array = Array(size, { Array(size, { OceanCellStatus.OPEN }) })
+        val array = Array(size, { Array(size, { OPEN }) })
         grid = Array2D(size, size, array)
     }
 
@@ -19,10 +19,10 @@ class StandardOceanGrid : OceanGrid {
         (0 until grid.xSize).forEach { y ->
             gridVis = gridVis.plus("$y | ")
             (0 until grid.ySize).forEach { x ->
-                val symbol = when(grid[x,y]) {
-                    OceanCellStatus.OPEN -> " "
-                    OceanCellStatus.ENGAGED -> "O"
-                    OceanCellStatus.HIT -> "X"
+                val symbol = when (grid[x, y]) {
+                    OPEN -> " "
+                    ENGAGED -> "O"
+                    HIT -> "X"
                 }
                 gridVis = gridVis.plus("$symbol ")
             }
@@ -50,7 +50,7 @@ class StandardOceanGrid : OceanGrid {
 
     override fun hasEngagedCells(): Boolean {
         grid.forEach {
-            if (it == OceanCellStatus.ENGAGED)
+            if (it == ENGAGED)
                 return true
         }
 
@@ -60,8 +60,8 @@ class StandardOceanGrid : OceanGrid {
     override fun bombard(cell: Cell): AttackStatus {
         val cellStatus = this.grid[cell.x, cell.y]
 
-        return if (cellStatus == OceanCellStatus.ENGAGED) {
-            this.grid[cell.x, cell.y] = OceanCellStatus.HIT
+        return if (cellStatus == ENGAGED) {
+            this.grid[cell.x, cell.y] = HIT
             AttackStatus.HIT
         } else {
             AttackStatus.MISS
@@ -69,18 +69,31 @@ class StandardOceanGrid : OceanGrid {
     }
 
     override fun place(ship: Ship, initialCell: Cell, direction: Direction) {
+        if(initialCell.x < 0 || initialCell.x > grid.xSize-1 ||
+                initialCell.y < 0 || initialCell.y > grid.ySize-1) {
+            throw ShipBeyondBoundsException()
+        }
+
         if (ships.containsKey(ship.type())) {
             throw ShipAlreadyPlacedException()
         }
 
         val cells = (0 until ship.length()).map {
             if (Direction.VERTICAL == direction) {
+                if (initialCell.y + it > grid.ySize - 1 || initialCell.x > grid.xSize - 1) {
+                    throw ShipBeyondBoundsException()
+                }
+
                 if (isGridCellEmpty(initialCell.x, initialCell.y + it)) {
                     Cell(initialCell.x, initialCell.y + it)
                 } else {
                     throw ShipOverlapsException()
                 }
             } else {
+                if (initialCell.y > grid.ySize - 1 || initialCell.x + it > grid.xSize - 1) {
+                    throw ShipBeyondBoundsException()
+                }
+
                 if (isGridCellEmpty(initialCell.x + it, initialCell.y)) {
                     Cell(initialCell.x + it, initialCell.y)
                 } else {
@@ -89,10 +102,10 @@ class StandardOceanGrid : OceanGrid {
             }
         }
 
-        cells.forEach { grid[it.x, it.y] = OceanCellStatus.ENGAGED }
+        cells.forEach { grid[it.x, it.y] = ENGAGED }
 
         ships.put(ship.type(), cells)
     }
 
-    private fun isGridCellEmpty(x: Int, y: Int): Boolean = grid[x, y] == OceanCellStatus.OPEN
+    private fun isGridCellEmpty(x: Int, y: Int): Boolean = grid[x, y] == OPEN
 }

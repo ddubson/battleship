@@ -28,6 +28,32 @@ internal class StandardOceanGridTest : Spek({
             }
         }
 
+        on("trying to place a ship off the grid") {
+            val oceanGrid = StandardOceanGrid()
+
+            it("should throw an exception") {
+                assertThrows(ShipBeyondBoundsException::class.java, {
+                    oceanGrid.place(Carrier(), Cell(-1, -1), Direction.HORIZONTAL)
+                })
+            }
+        }
+
+        on("trying to place a ship that spills beyond battlespace boundaries") {
+            val oceanGrid = StandardOceanGrid()
+
+            it("should throw an exception if the ship spills over vertically") {
+                assertThrows(ShipBeyondBoundsException::class.java, {
+                    oceanGrid.place(Carrier(), Cell(7, 7), Direction.VERTICAL)
+                })
+            }
+
+            it("should throw an exception if the ship spills over horizontally") {
+                assertThrows(ShipBeyondBoundsException::class.java, {
+                    oceanGrid.place(Carrier(), Cell(7, 7), Direction.HORIZONTAL)
+                })
+            }
+        }
+
         on("trying to place a ship that overlaps another ship") {
             val oceanGrid = StandardOceanGrid()
 
@@ -165,7 +191,7 @@ internal class StandardOceanGridTest : Spek({
 
         on("generating a 2D string representation") {
             val oceanGrid = StandardOceanGrid()
-            oceanGrid.place(Carrier(), Cell(0,0), Direction.VERTICAL)
+            oceanGrid.place(Carrier(), Cell(0, 0), Direction.VERTICAL)
 
             val string2d = oceanGrid.as2DString()
 
