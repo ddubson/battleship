@@ -1,6 +1,5 @@
 package com.ddubson.battleship.game
 
-import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
@@ -16,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 internal class StandardPlayerSpec : Spek({
     given("a player") {
         on("returning player name") {
-            val player = StandardPlayer("Player 1", mock {})
+            val player = StandardPlayer("Player 1")
             it("should return the player's name") {
                 assertEquals("Player 1", player.playerName())
             }
@@ -24,10 +23,11 @@ internal class StandardPlayerSpec : Spek({
 
         on("attacking opponent") {
             val attackedCell = Cell(0, 1)
-            val uiAdapter: BattleshipGameUiAdapter = mock {
-                on { askForAttackCell() } doReturn attackedCell
+            val subscribedGame: Game = mock {
+                on { onAttackEvent() } doReturn attackedCell
             }
-            val player = StandardPlayer("A Player", uiAdapter)
+
+            val player = StandardPlayer("A Player")
             val cellStatus = TargetCellStatus.HIT
             val targetGrid: TargetGrid = mock {
                 on { statusOf(attackedCell) } doReturn TargetCellStatus.OPEN
@@ -38,47 +38,52 @@ internal class StandardPlayerSpec : Spek({
 
             player.setOceanGrid(StandardOceanGrid())
             player.setTargetGrid(targetGrid)
+            player.subscribe(subscribedGame)
             player.attack(opponent)
 
             it("should ask the player to enter the cell to hit") {
-                verify(uiAdapter).askForAttackCell()
+                verify(subscribedGame).onAttackEvent()
             }
 
             it("should update the ocean grid of the opponent") {
                 verify(opponent).receiveAttack(attackedCell)
             }
 
+            it("should notify the game about the attack event") {
+                verify(subscribedGame).afterAttackEvent(player, opponent, cellStatus)
+            }
+
             it("should update the target grid of the player") {
                 verify(targetGrid).markWithStatus(attackedCell, cellStatus)
             }
-
         }
 
         on("attacking the same cell twice") {
             it("should ask to enter another cell") {
                 val attackedCell = Cell(0, 1)
-                val uiAdapter: BattleshipGameUiAdapter = mock {
-                    on { askForAttackCell() } doReturn attackedCell
+                val subscribedGame: Game = mock {
+                    on { onAttackEvent() } doReturn attackedCell
                 }
+
                 val opponent: Player = mock {
                     on { receiveAttack(attackedCell) } doReturn TargetCellStatus.MISS
                 }
-                val player = StandardPlayer("A Player", uiAdapter)
+                val player = StandardPlayer("A Player")
                 val targetGrid: TargetGrid = mock {
                     on { statusOf(attackedCell) } doReturn TargetCellStatus.MISS doReturn TargetCellStatus.OPEN
                 }
                 player.setTargetGrid(targetGrid)
+                player.subscribe(subscribedGame)
 
                 player.attack(opponent)
 
-                verify(uiAdapter, times(2)).askForAttackCell()
+                verify(subscribedGame, times(2)).onAttackEvent()
             }
         }
 
         on("receiving attack") {
             val attackedCell = Cell(0, 1)
-            val uiAdapter: BattleshipGameUiAdapter = mock {}
-            val player = StandardPlayer("a player", uiAdapter)
+            val player = StandardPlayer("a player")
 
             it("should report a 'hit' if ocean grid reports a hit") {
                 val oceanGrid: OceanGrid = mock {
@@ -100,7 +105,7 @@ internal class StandardPlayerSpec : Spek({
         }
 
         on("evaluating if any ships are left in battlespace") {
-            val player = StandardPlayer("p1", mock {})
+            val player = StandardPlayer("p1")
 
             it("should evaluate to true if there are ships left") {
                 val oceanGrid: OceanGrid = mock {

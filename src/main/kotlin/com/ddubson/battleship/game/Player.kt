@@ -1,6 +1,6 @@
 package com.ddubson.battleship.game
 
-interface Player: Attackable {
+interface Player: Attackable, Subscribable {
     fun playerName(): String
     fun oceanGrid(): OceanGrid?
     fun setOceanGrid(oceanGrid: OceanGrid)

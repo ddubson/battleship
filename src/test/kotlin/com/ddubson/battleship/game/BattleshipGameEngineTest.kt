@@ -86,6 +86,11 @@ class BattleshipGameEngineTest : Spek({
                 verify(gameComponentAdapter).createGame(player1, player2)
             }
 
+            it("should the newly created game as a subscriber to events for both players") {
+                verify(player1).subscribe(game1)
+                verify(player2).subscribe(game1)
+            }
+
             it("should notify that player 1 goes first") {
                 verify(uiAdapter).displayWarning("${player1.playerName()} goes first.")
             }

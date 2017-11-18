@@ -120,15 +120,16 @@ class StandardGameComponentAdapterSpec : Spek({
         }
 
         on("creating a game") {
-            val player1 = StandardPlayer("Player1", mock {})
-            val player2 = StandardPlayer("Player2", mock {})
+            val player1 = StandardPlayer("Player1")
+            val player2 = StandardPlayer("Player2")
             val game: Game = mock {}
+            val uiAdapter: BattleshipGameUiAdapter = mock {}
             val gameBuilder: GameBuilder = mock {
-                on { newGame(player1, player2) } doReturn game
+                on { newGame(player1, player2, uiAdapter) } doReturn game
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    mock {}, mock {}, mock {}, gameBuilder, mock {})
+                    uiAdapter, mock {}, mock {}, gameBuilder, mock {})
 
             val actualGame = gameComponentAdapter.createGame(player1, player2)
 
@@ -143,7 +144,7 @@ class StandardGameComponentAdapterSpec : Spek({
                     mock {}, mock {}, mock {}, mock {}, mock {})
 
             val oceanGrid: OceanGrid = mock {}
-            val player = StandardPlayer("Player", mock {})
+            val player = StandardPlayer("Player")
 
             it("should add ocean grid to player") {
                 assertEquals(null, player.oceanGrid())
@@ -157,7 +158,7 @@ class StandardGameComponentAdapterSpec : Spek({
                     mock {}, mock {}, mock {}, mock {}, mock {})
 
             val targetGrid: TargetGrid = mock {}
-            val player = StandardPlayer("Player", mock {})
+            val player = StandardPlayer("Player")
 
             it("should add a target grid to player") {
                 assertEquals(null, player.targetGrid())
@@ -246,7 +247,7 @@ class StandardGameComponentAdapterSpec : Spek({
                 on { newOceanGrid() } doReturn oceanGrid
             }
 
-            val player = StandardPlayer("", uiAdapter)
+            val player = StandardPlayer("")
             val gameComponentAdapter = StandardGameComponentAdapter(uiAdapter,
                     shipBuilder, gridBuilder, mock {}, mock {})
 

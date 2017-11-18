@@ -1,10 +1,13 @@
 package com.ddubson.battleship.game
 
+import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import java.util.*
 import java.util.concurrent.ArrayBlockingQueue
 
 class StandardGame(player1: Player,
-                   player2: Player) : Game {
+                   player2: Player,
+                   private val uiAdapter: BattleshipGameUiAdapter) : Game {
+
     private val turnQueue: Queue<Player>
 
     init {
@@ -20,5 +23,15 @@ class StandardGame(player1: Player,
     override fun nextPlayer(): Player {
         turnQueue.add(turnQueue.remove())
         return turnQueue.element()
+    }
+
+    override fun onAttackEvent(): Cell = uiAdapter.askForAttackCell()
+
+    override fun afterAttackEvent(attacker: Player, opponent: Player, cellStatus: TargetCellStatus) {
+        when(cellStatus) {
+            TargetCellStatus.MISS -> uiAdapter.displayWarning("It's a miss!")
+            TargetCellStatus.HIT -> uiAdapter.displayWarning("It's a hit!")
+            else -> uiAdapter.displayWarning("Could not calculate attack result.")
+        }
     }
 }

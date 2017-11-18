@@ -23,6 +23,8 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
         gameComponentAdapter.addTargetGridToPlayer(player2, targetGrid2)
 
         val game = gameComponentAdapter.createGame(player1, player2)
+        player1.subscribe(game)
+        player2.subscribe(game)
 
         var attacker = game.nextPlayer()
         uiAdapter.displayWarning("${attacker.playerName()} goes first.")

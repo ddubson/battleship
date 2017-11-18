@@ -2,12 +2,15 @@ package com.ddubson.battleship.game
 
 import com.ddubson.battleship.game.TargetCellStatus.HIT
 import com.ddubson.battleship.game.TargetCellStatus.MISS
-import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 
-class StandardPlayer(private val playerName: String,
-                     private val uiAdapter: BattleshipGameUiAdapter) : Player {
+class StandardPlayer(private val playerName: String) : Player {
+    private lateinit var subscribedGame: Subscriber
     private var oceanGrid: OceanGrid? = null
     private var targetGrid: TargetGrid? = null
+
+    override fun subscribe(subscriber: Subscriber) {
+        this.subscribedGame = subscriber
+    }
 
     override fun hasShipsLeft(): Boolean = this.oceanGrid!!.hasEngagedCells()
 
@@ -33,10 +36,11 @@ class StandardPlayer(private val playerName: String,
         var cell: Cell
 
         do {
-            cell = uiAdapter.askForAttackCell()
+            cell = subscribedGame.onAttackEvent()
         } while (cellHasAlreadyBeenFiredAt(cell))
 
         val cellStatus = opponent.receiveAttack(cell)
+        subscribedGame.afterAttackEvent(this, opponent, cellStatus)
 
         this.updateTargetGrid(cell, cellStatus)
     }

@@ -35,5 +35,5 @@ class BattleshipGameCLIConfig {
     fun cliAdapter(): CLIAdapter = StandardCLIAdapter()
 
     @Bean
-    fun playerBuilder(): PlayerBuilder = StandardPlayerBuilder(battleshipGameUiAdapter())
+    fun playerBuilder(): PlayerBuilder = StandardPlayerBuilder()
 }

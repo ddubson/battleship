@@ -23,7 +23,7 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
 
     override fun createTargetGrid(player: Player): TargetGrid = gridBuilder.newTargetGrid()
 
-    override fun createGame(player1: Player, player2: Player): Game = gameBuilder.newGame(player1, player2)
+    override fun createGame(player1: Player, player2: Player): Game = gameBuilder.newGame(player1, player2, uiAdapter)
 
     override fun createOceanGrid(player: Player): OceanGrid {
         val oceanGrid = gridBuilder.newOceanGrid()
