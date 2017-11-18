@@ -18,14 +18,17 @@ class BattleshipGameEngineTest : Spek({
         val targetGrid2: TargetGrid = mock {}
 
         val player1: Player = mock {
+            on { playerName() } doReturn "player1"
             on { hasShipsLeft() } doReturn false
         }
         val player2: Player = mock {
+            on { playerName() } doReturn "player2"
             on { hasShipsLeft() } doReturn true
         }
         val game1: Game = mock {
             on { nextPlayer() } doReturn player1 doReturn player2
             on { currentOpponent() } doReturn player2 doReturn player1
+            on { currentAttacker() } doReturn player2
         }
 
         val gameComponentAdapter: GameComponentAdapter = mock {
@@ -83,9 +86,18 @@ class BattleshipGameEngineTest : Spek({
                 verify(gameComponentAdapter).createGame(player1, player2)
             }
 
+            it("should notify that player 1 goes first") {
+                verify(uiAdapter).displayWarning("${player1.playerName()} goes first.")
+            }
+
             it("should choose player turns and continue until game is finished") {
                 verify(player1).attack(player2)
+                verify(uiAdapter).displayWarning("${player2.playerName()}, take your turn.")
                 verify(player2).attack(player1)
+            }
+
+            it("should announce winner of the game once turns have been exhausted") {
+                verify(uiAdapter).announceWinner(player2)
             }
         }
     }

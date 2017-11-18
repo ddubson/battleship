@@ -24,19 +24,20 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
 
         val game = gameComponentAdapter.createGame(player1, player2)
 
+        var attacker = game.nextPlayer()
+        uiAdapter.displayWarning("${attacker.playerName()} goes first.")
+        var opponent = game.currentOpponent()
+
+        attacker.attack(opponent)
+
         do {
-            val attacker = game.nextPlayer()
-            val opponent = game.currentOpponent()
+            attacker = game.nextPlayer()
+            uiAdapter.displayWarning("${attacker.playerName()}, take your turn.")
+            opponent = game.currentOpponent()
 
             attacker.attack(opponent)
         } while (opponent.hasShipsLeft())
 
-/*        while(!game.finished()) {
-            attacker.attack(opponent)
-            opponent.evaluate()
-        }
-
-        uiAdapter.announceWinner(game.winner())
-        */
+        uiAdapter.announceWinner(game.currentAttacker())
     }
 }

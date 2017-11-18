@@ -16,4 +16,5 @@ interface BattleshipGameUiAdapter {
     fun askForAttackCell(): Cell
     fun displayWarning(message: String)
     fun displayOceanGrid(oceanGrid: OceanGrid)
+    fun announceWinner(player: Player)
 }

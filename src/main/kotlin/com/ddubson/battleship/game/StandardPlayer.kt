@@ -39,7 +39,6 @@ class StandardPlayer(private val playerName: String,
         val cellStatus = opponent.receiveAttack(cell)
 
         this.updateTargetGrid(cell, cellStatus)
-
     }
 
     override fun receiveAttack(cell: Cell): TargetCellStatus {

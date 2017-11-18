@@ -62,6 +62,22 @@ class BattleshipGameCLITest : Spek({
             }
         }
 
+        on("ask for attack cell") {
+            val cliAdapter: CLIAdapter = mock { on { readLine() } doReturn "0 1" }
+            val battleshipGameCli = BattleshipGameCLI(cliAdapter)
+            val expectedCell = Cell(0, 1)
+            val actualCell = battleshipGameCli.askForAttackCell()
+
+            it("should prompt the user to enter an attack cell") {
+                verify(cliAdapter).print("Enter attack cell coordinates: ")
+            }
+
+            it("should return the expected cell") {
+                assertEquals(actualCell.x, expectedCell.x)
+                assertEquals(actualCell.y, expectedCell.y)
+            }
+        }
+
         on("output only") {
             val cliAdapter: CLIAdapter = mock {}
             val battleshipGameCli = BattleshipGameCLI(cliAdapter)
@@ -100,6 +116,16 @@ class BattleshipGameCLITest : Spek({
                 battleshipGameCli.displayOceanGrid(oceanGrid)
 
                 verify(cliAdapter).println(printedOceanGrid)
+            }
+
+            it("should announce the winner of a game") {
+                val player: Player = mock {
+                    on { playerName() } doReturn "Player 1"
+                }
+
+                battleshipGameCli.announceWinner(player)
+
+                verify(cliAdapter).println("#### Player ${player.playerName()} wins! ####")
             }
         }
 
