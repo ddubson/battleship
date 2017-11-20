@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 internal class StandardPlayerSpec : Spek({
     given("a player") {
         on("returning player name") {
-            val player = StandardPlayer("Player 1")
+            val player = StandardPlayer("Player 1", mock{})
             it("should return the player's name") {
                 assertEquals("Player 1", player.playerName())
             }
@@ -23,21 +23,20 @@ internal class StandardPlayerSpec : Spek({
 
         on("attacking opponent") {
             val attackedCell = Cell(0, 1)
+            val targetGrid: TargetGrid = mock {
+                on { statusOf(attackedCell) } doReturn TargetCellStatus.OPEN
+            }
             val subscribedGame: Game = mock {
                 on { onAttackEvent() } doReturn attackedCell
             }
 
-            val player = StandardPlayer("A Player")
+            val player = StandardPlayer("A Player", targetGrid)
             val cellStatus = TargetCellStatus.HIT
-            val targetGrid: TargetGrid = mock {
-                on { statusOf(attackedCell) } doReturn TargetCellStatus.OPEN
-            }
             val opponent: Player = mock {
                 on { receiveAttack(attackedCell) } doReturn cellStatus
             }
 
             player.setOceanGrid(StandardOceanGrid())
-            player.setTargetGrid(targetGrid)
             player.subscribe(subscribedGame)
             player.attack(opponent)
 
@@ -68,11 +67,10 @@ internal class StandardPlayerSpec : Spek({
                 val opponent: Player = mock {
                     on { receiveAttack(attackedCell) } doReturn TargetCellStatus.MISS
                 }
-                val player = StandardPlayer("A Player")
                 val targetGrid: TargetGrid = mock {
                     on { statusOf(attackedCell) } doReturn TargetCellStatus.MISS doReturn TargetCellStatus.OPEN
                 }
-                player.setTargetGrid(targetGrid)
+                val player = StandardPlayer("A Player", targetGrid)
                 player.subscribe(subscribedGame)
 
                 player.attack(opponent)
@@ -83,7 +81,7 @@ internal class StandardPlayerSpec : Spek({
 
         on("receiving attack") {
             val attackedCell = Cell(0, 1)
-            val player = StandardPlayer("a player")
+            val player = StandardPlayer("a player", mock {})
 
             it("should report a 'hit' if ocean grid reports a hit") {
                 val oceanGrid: OceanGrid = mock {
@@ -105,7 +103,7 @@ internal class StandardPlayerSpec : Spek({
         }
 
         on("evaluating if any ships are left in battlespace") {
-            val player = StandardPlayer("p1")
+            val player = StandardPlayer("p1", mock {})
 
             it("should evaluate to true if there are ships left") {
                 val oceanGrid: OceanGrid = mock {

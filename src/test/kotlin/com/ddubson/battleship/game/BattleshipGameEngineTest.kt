@@ -33,9 +33,9 @@ class BattleshipGameEngineTest : Spek({
 
         val gameComponentAdapter: GameComponentAdapter = mock {
             on { createOceanGrid(player1) } doReturn oceanGrid1
-            on { createTargetGrid(player1) } doReturn targetGrid1
+            on { createTargetGrid() } doReturn targetGrid1
             on { createOceanGrid(player2) } doReturn oceanGrid2
-            on { createTargetGrid(player2) } doReturn targetGrid2
+            on { createTargetGrid() } doReturn targetGrid2
             on { createPlayerOne() } doReturn player1
             on { createPlayerTwo() } doReturn player2
             on { createGame(player1, player2) } doReturn game1
@@ -60,26 +60,16 @@ class BattleshipGameEngineTest : Spek({
                 verify(gameComponentAdapter).createOceanGrid(player1)
             }
 
-            it("should add a target grid to player 1") {
-                verify(gameComponentAdapter).createTargetGrid(player1)
-            }
-
             it("should add an ocean grid and target grid to player 1") {
                 verify(gameComponentAdapter).addOceanGridToPlayer(player1, oceanGrid1)
-                verify(gameComponentAdapter).addTargetGridToPlayer(player1, targetGrid1)
             }
 
             it("should ask player 2 to create ocean grid") {
                 verify(gameComponentAdapter).createOceanGrid(player2)
             }
 
-            it("should create a target grid for player 2") {
-                verify(gameComponentAdapter).createTargetGrid(player2)
-            }
-
             it("should add an ocean grid and target grid to player 2") {
                 verify(gameComponentAdapter).addOceanGridToPlayer(player2, oceanGrid2)
-                verify(gameComponentAdapter).addTargetGridToPlayer(player2, targetGrid2)
             }
 
             it("should create a game") {

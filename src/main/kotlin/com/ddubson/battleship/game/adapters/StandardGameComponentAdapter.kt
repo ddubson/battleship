@@ -13,15 +13,13 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
         player.setOceanGrid(oceanGrid)
     }
 
-    override fun addTargetGridToPlayer(player: Player, targetGrid: TargetGrid) {
-        player.setTargetGrid(targetGrid)
-    }
+    override fun createPlayerOne(): Player =
+            playerBuilder.newPlayer(uiAdapter.askForPlayerName(), gridBuilder.newTargetGrid())
 
-    override fun createPlayerOne(): Player = playerBuilder.newPlayer(uiAdapter.askForPlayerName())
+    override fun createPlayerTwo(): Player =
+            playerBuilder.newPlayer(uiAdapter.askForPlayerName(), gridBuilder.newTargetGrid())
 
-    override fun createPlayerTwo(): Player = playerBuilder.newPlayer(uiAdapter.askForPlayerName())
-
-    override fun createTargetGrid(player: Player): TargetGrid = gridBuilder.newTargetGrid()
+    override fun createTargetGrid(): TargetGrid = gridBuilder.newTargetGrid()
 
     override fun createGame(player1: Player, player2: Player): Game = gameBuilder.newGame(player1, player2, uiAdapter)
 

@@ -3,10 +3,10 @@ package com.ddubson.battleship.game
 import com.ddubson.battleship.game.TargetCellStatus.HIT
 import com.ddubson.battleship.game.TargetCellStatus.MISS
 
-class StandardPlayer(private val playerName: String) : Player {
+class StandardPlayer(private val playerName: String,
+                     private val targetGrid: TargetGrid) : Player {
     private lateinit var subscribedGame: Subscriber
     private var oceanGrid: OceanGrid? = null
-    private var targetGrid: TargetGrid? = null
 
     override fun subscribe(subscriber: Subscriber) {
         this.subscribedGame = subscriber
@@ -14,14 +14,10 @@ class StandardPlayer(private val playerName: String) : Player {
 
     override fun hasShipsLeft(): Boolean = this.oceanGrid!!.hasEngagedCells()
 
-    override fun targetGrid(): TargetGrid? = targetGrid
+    override fun targetGrid(): TargetGrid = targetGrid
 
     override fun setOceanGrid(oceanGrid: OceanGrid) {
         this.oceanGrid = oceanGrid
-    }
-
-    override fun setTargetGrid(targetGrid: TargetGrid) {
-        this.targetGrid = targetGrid
     }
 
     override fun oceanGrid(): OceanGrid? = oceanGrid
@@ -29,7 +25,7 @@ class StandardPlayer(private val playerName: String) : Player {
     override fun playerName(): String = playerName
 
     private fun updateTargetGrid(cell: Cell, targetCellStatus: TargetCellStatus) {
-        this.targetGrid!!.markWithStatus(cell, targetCellStatus)
+        this.targetGrid.markWithStatus(cell, targetCellStatus)
     }
 
     override fun attack(opponent: Player) {
@@ -54,7 +50,7 @@ class StandardPlayer(private val playerName: String) : Player {
     }
 
     private fun cellHasAlreadyBeenFiredAt(cell: Cell): Boolean {
-        val status =  this.targetGrid!!.statusOf(cell)
+        val status =  this.targetGrid.statusOf(cell)
         return status == HIT || status == MISS
     }
 }
