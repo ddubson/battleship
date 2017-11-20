@@ -19,7 +19,6 @@ class StandardGameComponentAdapterSpec : Spek({
             val battleship = Battleship()
             val cell = Cell(0, 0)
             val direction = Direction.HORIZONTAL
-            val player: Player = mock {}
             val oceanGrid: OceanGrid = mock {}
 
             val uiAdapter: BattleshipGameUiAdapter = mock {
@@ -48,7 +47,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val gameComponentAdapter = StandardGameComponentAdapter(
                     uiAdapter, shipBuilder, gridBuilder, mock {}, mock {})
 
-            val actualOceanGrid = gameComponentAdapter.createOceanGrid(player)
+            val actualOceanGrid = gameComponentAdapter.createOceanGrid()
 
             it("should create an empty Ocean Grid") {
                 verify(gridBuilder).newOceanGrid()
@@ -120,8 +119,8 @@ class StandardGameComponentAdapterSpec : Spek({
 
         on("creating a game") {
             val targetGrid: TargetGrid = mock {}
-            val player1 = StandardPlayer("Player1", targetGrid)
-            val player2 = StandardPlayer("Player2", targetGrid)
+            val player1 = StandardPlayer("Player1", mock {}, targetGrid)
+            val player2 = StandardPlayer("Player2", mock {}, targetGrid)
             val game: Game = mock {}
             val uiAdapter: BattleshipGameUiAdapter = mock {}
             val gameBuilder: GameBuilder = mock {
@@ -141,33 +140,20 @@ class StandardGameComponentAdapterSpec : Spek({
             }
         }
 
-        on("adding an ocean grid to a player") {
-
-            val gameComponentAdapter = StandardGameComponentAdapter(
-                    mock {}, mock {}, mock {}, mock {}, mock {})
-
-            val oceanGrid: OceanGrid = mock {}
-            val player = StandardPlayer("Player", mock{})
-
-            it("should add ocean grid to player") {
-                assertEquals(null, player.oceanGrid())
-                gameComponentAdapter.addOceanGridToPlayer(player, oceanGrid)
-                assertEquals(oceanGrid, player.oceanGrid())
-            }
-        }
-
         on("creating player one") {
             val playerName = "Player 1"
             val player: Player = mock {}
             val targetGrid: TargetGrid = mock {}
+            val oceanGrid: OceanGrid = mock {}
             val playerBuilder: PlayerBuilder = mock {
-                on { newPlayer(playerName, targetGrid) } doReturn player
+                on { newPlayer(playerName, oceanGrid, targetGrid) } doReturn player
             }
             val gridBuilder: GridBuilder = mock {
                 on { newTargetGrid() } doReturn targetGrid
+                on { newOceanGrid() } doReturn oceanGrid
             }
             val uiAdapter: BattleshipGameUiAdapter = mock {
-                on { askForPlayerName()} doReturn playerName
+                on { askForPlayerName() } doReturn playerName
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
@@ -176,7 +162,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val actualPlayer = gameComponentAdapter.createPlayerOne()
 
             it("should call player builder") {
-                verify(playerBuilder).newPlayer(playerName, targetGrid)
+                verify(playerBuilder).newPlayer(playerName, oceanGrid, targetGrid)
             }
 
             it("should ask for player name") {
@@ -192,14 +178,16 @@ class StandardGameComponentAdapterSpec : Spek({
             val playerName = "Player 2"
             val player: Player = mock {}
             val targetGrid: TargetGrid = mock {}
+            val oceanGrid: OceanGrid = mock {}
             val playerBuilder: PlayerBuilder = mock {
-                on { newPlayer(playerName, targetGrid) } doReturn player
+                on { newPlayer(playerName, oceanGrid, targetGrid) } doReturn player
             }
             val uiAdapter: BattleshipGameUiAdapter = mock {
-                on { askForPlayerName()} doReturn playerName
+                on { askForPlayerName() } doReturn playerName
             }
             val gridBuilder: GridBuilder = mock {
                 on { newTargetGrid() } doReturn targetGrid
+                on { newOceanGrid() } doReturn oceanGrid
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
@@ -208,7 +196,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val actualPlayer = gameComponentAdapter.createPlayerTwo()
 
             it("should call player builder") {
-                verify(playerBuilder).newPlayer(playerName, targetGrid)
+                verify(playerBuilder).newPlayer(playerName, oceanGrid, targetGrid)
             }
 
             it("should ask for player name") {
@@ -222,7 +210,7 @@ class StandardGameComponentAdapterSpec : Spek({
 
         on("placing a ship over another") {
             val ship = Carrier()
-            val badCell = Cell(0,0)
+            val badCell = Cell(0, 0)
             val goodCell = Cell(0, 1)
             val direction = Direction.VERTICAL
 
@@ -244,11 +232,10 @@ class StandardGameComponentAdapterSpec : Spek({
                 on { newOceanGrid() } doReturn oceanGrid
             }
 
-            val player = StandardPlayer("", mock {})
             val gameComponentAdapter = StandardGameComponentAdapter(uiAdapter,
                     shipBuilder, gridBuilder, mock {}, mock {})
 
-            gameComponentAdapter.createOceanGrid(player)
+            gameComponentAdapter.createOceanGrid()
 
             it("should prompt the user to choose another space") {
                 verify(oceanGrid).place(ship, badCell, direction)

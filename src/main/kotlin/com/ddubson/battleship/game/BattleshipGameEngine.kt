@@ -12,12 +12,6 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
         val player2 = gameComponentAdapter.createPlayerTwo()
         uiAdapter.announcePlayer(player2)
 
-        val oceanGrid1 = gameComponentAdapter.createOceanGrid(player1)
-        gameComponentAdapter.addOceanGridToPlayer(player1, oceanGrid1)
-
-        val oceanGrid2 = gameComponentAdapter.createOceanGrid(player2)
-        gameComponentAdapter.addOceanGridToPlayer(player2, oceanGrid2)
-
         val game = gameComponentAdapter.createGame(player1, player2)
         player1.subscribe(game)
         player2.subscribe(game)

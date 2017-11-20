@@ -6,10 +6,9 @@ import com.ddubson.battleship.game.Player
 import com.ddubson.battleship.game.TargetGrid
 
 interface GameComponentAdapter {
-    fun createOceanGrid(player: Player): OceanGrid
+    fun createOceanGrid(): OceanGrid
     fun createTargetGrid(): TargetGrid
     fun createGame(player1: Player, player2: Player): Game
     fun createPlayerOne(): Player
     fun createPlayerTwo(): Player
-    fun addOceanGridToPlayer(player: Player, oceanGrid: OceanGrid)
 }

@@ -4,23 +4,19 @@ import com.ddubson.battleship.game.TargetCellStatus.HIT
 import com.ddubson.battleship.game.TargetCellStatus.MISS
 
 class StandardPlayer(private val playerName: String,
+                     private val oceanGrid: OceanGrid,
                      private val targetGrid: TargetGrid) : Player {
     private lateinit var subscribedGame: Subscriber
-    private var oceanGrid: OceanGrid? = null
 
     override fun subscribe(subscriber: Subscriber) {
         this.subscribedGame = subscriber
     }
 
-    override fun hasShipsLeft(): Boolean = this.oceanGrid!!.hasEngagedCells()
+    override fun hasShipsLeft(): Boolean = this.oceanGrid.hasEngagedCells()
 
     override fun targetGrid(): TargetGrid = targetGrid
 
-    override fun setOceanGrid(oceanGrid: OceanGrid) {
-        this.oceanGrid = oceanGrid
-    }
-
-    override fun oceanGrid(): OceanGrid? = oceanGrid
+    override fun oceanGrid(): OceanGrid = oceanGrid
 
     override fun playerName(): String = playerName
 
@@ -42,7 +38,7 @@ class StandardPlayer(private val playerName: String,
     }
 
     override fun receiveAttack(cell: Cell): TargetCellStatus {
-        val status = this.oceanGrid!!.bombard(cell)
+        val status = this.oceanGrid.bombard(cell)
         return when(status) {
             AttackStatus.HIT -> HIT
             else -> MISS

@@ -1,5 +1,7 @@
 package com.ddubson.battleship.game
 
 interface PlayerBuilder {
-    fun newPlayer(playerName: String, targetGrid: TargetGrid): Player
+    fun newPlayer(playerName: String,
+                  oceanGrid: OceanGrid,
+                  targetGrid: TargetGrid): Player
 }

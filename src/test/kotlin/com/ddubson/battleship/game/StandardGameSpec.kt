@@ -12,8 +12,8 @@ import org.junit.Assert.assertEquals
 
 internal class StandardGameSpec : Spek({
     given("a standard game") {
-        val player1 = StandardPlayer("p1", mock {})
-        val player2 = StandardPlayer("p2", mock {})
+        val player1 = StandardPlayer("p1", mock{}, mock {})
+        val player2 = StandardPlayer("p2", mock{}, mock {})
 
         on("choosing the next player and opponent") {
             val game = StandardGame(player1, player2, mock{})

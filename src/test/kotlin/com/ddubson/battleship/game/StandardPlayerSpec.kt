@@ -15,7 +15,7 @@ import org.junit.jupiter.api.Assertions.assertEquals
 internal class StandardPlayerSpec : Spek({
     given("a player") {
         on("returning player name") {
-            val player = StandardPlayer("Player 1", mock{})
+            val player = StandardPlayer("Player 1", mock{}, mock{})
             it("should return the player's name") {
                 assertEquals("Player 1", player.playerName())
             }
@@ -30,13 +30,12 @@ internal class StandardPlayerSpec : Spek({
                 on { onAttackEvent() } doReturn attackedCell
             }
 
-            val player = StandardPlayer("A Player", targetGrid)
+            val player = StandardPlayer("A Player", mock{}, targetGrid)
             val cellStatus = TargetCellStatus.HIT
             val opponent: Player = mock {
                 on { receiveAttack(attackedCell) } doReturn cellStatus
             }
 
-            player.setOceanGrid(StandardOceanGrid())
             player.subscribe(subscribedGame)
             player.attack(opponent)
 
@@ -70,7 +69,7 @@ internal class StandardPlayerSpec : Spek({
                 val targetGrid: TargetGrid = mock {
                     on { statusOf(attackedCell) } doReturn TargetCellStatus.MISS doReturn TargetCellStatus.OPEN
                 }
-                val player = StandardPlayer("A Player", targetGrid)
+                val player = StandardPlayer("A Player", mock{}, targetGrid)
                 player.subscribe(subscribedGame)
 
                 player.attack(opponent)
@@ -81,13 +80,12 @@ internal class StandardPlayerSpec : Spek({
 
         on("receiving attack") {
             val attackedCell = Cell(0, 1)
-            val player = StandardPlayer("a player", mock {})
 
             it("should report a 'hit' if ocean grid reports a hit") {
                 val oceanGrid: OceanGrid = mock {
                     on { bombard(attackedCell) } doReturn AttackStatus.HIT
                 }
-                player.setOceanGrid(oceanGrid)
+                val player = StandardPlayer("a player", oceanGrid, mock {})
 
                 assertEquals(TargetCellStatus.HIT, player.receiveAttack(attackedCell))
             }
@@ -96,20 +94,19 @@ internal class StandardPlayerSpec : Spek({
                 val oceanGrid: OceanGrid = mock {
                     on { bombard(attackedCell) } doReturn AttackStatus.MISS
                 }
-                player.setOceanGrid(oceanGrid)
+                val player = StandardPlayer("a player", oceanGrid, mock {})
 
                 assertEquals(TargetCellStatus.MISS, player.receiveAttack(attackedCell))
             }
         }
 
         on("evaluating if any ships are left in battlespace") {
-            val player = StandardPlayer("p1", mock {})
 
             it("should evaluate to true if there are ships left") {
                 val oceanGrid: OceanGrid = mock {
                     on { hasEngagedCells() } doReturn true
                 }
-                player.setOceanGrid(oceanGrid)
+                val player = StandardPlayer("p1", oceanGrid, mock {})
 
                 assertTrue(player.hasShipsLeft())
             }
@@ -118,7 +115,7 @@ internal class StandardPlayerSpec : Spek({
                 val oceanGrid: OceanGrid = mock {
                     on { hasEngagedCells() } doReturn false
                 }
-                player.setOceanGrid(oceanGrid)
+                val player = StandardPlayer("p1", oceanGrid, mock {})
 
                 assertFalse(player.hasShipsLeft())
             }
