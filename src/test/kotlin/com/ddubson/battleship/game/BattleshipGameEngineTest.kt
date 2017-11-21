@@ -13,9 +13,7 @@ import org.jetbrains.spek.api.dsl.on
 class BattleshipGameEngineTest : Spek({
     given("battleship game engine") {
         val oceanGrid1: OceanGrid = mock {}
-        val targetGrid1: TargetGrid = mock {}
         val oceanGrid2: OceanGrid = mock {}
-        val targetGrid2: TargetGrid = mock {}
 
         val player1: Player = mock {
             on { playerName() } doReturn "player1"
@@ -33,8 +31,6 @@ class BattleshipGameEngineTest : Spek({
 
         val gameComponentAdapter: GameComponentAdapter = mock {
             on { createOceanGrid() } doReturn oceanGrid1 doReturn oceanGrid2
-            on { createTargetGrid() } doReturn targetGrid1
-            on { createTargetGrid() } doReturn targetGrid2
             on { createPlayerOne() } doReturn player1
             on { createPlayerTwo() } doReturn player2
             on { createGame(player1, player2) } doReturn game1

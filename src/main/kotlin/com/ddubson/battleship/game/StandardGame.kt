@@ -7,7 +7,6 @@ import java.util.concurrent.ArrayBlockingQueue
 class StandardGame(player1: Player,
                    player2: Player,
                    private val uiAdapter: BattleshipGameUiAdapter) : Game {
-
     private val turnQueue: Queue<Player>
 
     init {

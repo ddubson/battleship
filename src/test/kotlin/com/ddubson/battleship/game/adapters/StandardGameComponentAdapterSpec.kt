@@ -97,26 +97,6 @@ class StandardGameComponentAdapterSpec : Spek({
             }
         }
 
-        on("creating a target grid") {
-            val targetGrid: TargetGrid = mock {}
-            val gridBuilder: GridBuilder = mock {
-                on { newTargetGrid() } doReturn targetGrid
-            }
-
-            val gameComponentAdapter = StandardGameComponentAdapter(
-                    mock {}, mock {}, gridBuilder, mock {}, mock {})
-
-            val actualTargetGrid = gameComponentAdapter.createTargetGrid()
-
-            it("should create an empty Target Grid") {
-                verify(gridBuilder).newTargetGrid()
-            }
-
-            it("should return the empty Target Grid") {
-                assertEquals(targetGrid, actualTargetGrid)
-            }
-        }
-
         on("creating a game") {
             val targetGrid: TargetGrid = mock {}
             val player1 = StandardPlayer("Player1", mock {}, targetGrid)
@@ -152,12 +132,19 @@ class StandardGameComponentAdapterSpec : Spek({
                 on { newTargetGrid() } doReturn targetGrid
                 on { newOceanGrid() } doReturn oceanGrid
             }
+            val shipBuilder: ShipBuilder = mock {
+                on { newCarrier() } doReturn Carrier()
+                on { newBattleship() } doReturn Battleship()
+                on { newCruiser() } doReturn Cruiser()
+                on { newSubmarine() } doReturn Submarine()
+                on { newDestroyer() } doReturn Destroyer()
+            }
             val uiAdapter: BattleshipGameUiAdapter = mock {
                 on { askForPlayerName() } doReturn playerName
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    uiAdapter, mock {}, gridBuilder, mock {}, playerBuilder)
+                    uiAdapter, shipBuilder, gridBuilder, mock {}, playerBuilder)
 
             val actualPlayer = gameComponentAdapter.createPlayerOne()
 
@@ -185,13 +172,20 @@ class StandardGameComponentAdapterSpec : Spek({
             val uiAdapter: BattleshipGameUiAdapter = mock {
                 on { askForPlayerName() } doReturn playerName
             }
+            val shipBuilder: ShipBuilder = mock {
+                on { newCarrier() } doReturn Carrier()
+                on { newBattleship() } doReturn Battleship()
+                on { newCruiser() } doReturn Cruiser()
+                on { newSubmarine() } doReturn Submarine()
+                on { newDestroyer() } doReturn Destroyer()
+            }
             val gridBuilder: GridBuilder = mock {
                 on { newTargetGrid() } doReturn targetGrid
                 on { newOceanGrid() } doReturn oceanGrid
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    uiAdapter, mock {}, gridBuilder, mock {}, playerBuilder)
+                    uiAdapter, shipBuilder, gridBuilder, mock {}, playerBuilder)
 
             val actualPlayer = gameComponentAdapter.createPlayerTwo()
 
