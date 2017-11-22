@@ -9,12 +9,14 @@ import com.ddubson.battleship.game.Player
 import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.ddubson.battleship.game.ship.Ship
 
-class BattleshipGameCLI(private val cliAdapter: CLIAdapter) : BattleshipGameUiAdapter {
+class BattleshipGameCLI(private val cliAdapter: CLIAdapter,
+                        private val clearScreen: ClearScreen) : BattleshipGameUiAdapter {
     override fun announceWinner(player: Player) {
         cliAdapter.println("#### Player ${player.playerName()} wins! ####")
     }
 
     override fun displayOceanGrid(oceanGrid: OceanGrid) {
+        clearScreen.clear()
         cliAdapter.println(oceanGrid.as2DString())
     }
 
@@ -46,6 +48,7 @@ class BattleshipGameCLI(private val cliAdapter: CLIAdapter) : BattleshipGameUiAd
     }
 
     override fun announcePlayer(player: Player) {
+        clearScreen.clear()
         cliAdapter.println("Player ${player.playerName()} has entered the battlespace!")
     }
 

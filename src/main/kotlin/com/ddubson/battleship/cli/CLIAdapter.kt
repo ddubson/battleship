@@ -4,9 +4,14 @@ interface CLIAdapter {
     fun print(msg: String)
     fun println(msg: String)
     fun readLine(): String
+    fun flush()
 }
 
 open class StandardCLIAdapter : CLIAdapter {
+    override fun flush() {
+        System.out.flush()
+    }
+
     override fun print(msg: String) {
         kotlin.io.print(msg)
     }
@@ -15,7 +20,5 @@ open class StandardCLIAdapter : CLIAdapter {
         kotlin.io.println(msg)
     }
 
-    override fun readLine(): String {
-        return kotlin.io.readLine()!!
-    }
+    override fun readLine(): String = kotlin.io.readLine()!!
 }

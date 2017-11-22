@@ -16,7 +16,7 @@ class BattleshipGameCLIConfig {
             battleshipGameUiAdapter(), gameComponentAdapter())
 
     @Bean
-    fun battleshipGameUiAdapter(): BattleshipGameUiAdapter = BattleshipGameCLI(cliAdapter())
+    fun battleshipGameUiAdapter(): BattleshipGameUiAdapter = BattleshipGameCLI(cliAdapter(), clearScreen())
 
     @Bean
     fun gameComponentAdapter(): GameComponentAdapter = StandardGameComponentAdapter(
@@ -36,4 +36,7 @@ class BattleshipGameCLIConfig {
 
     @Bean
     fun playerBuilder(): PlayerBuilder = StandardPlayerBuilder()
+
+    @Bean
+    fun clearScreen(): ClearScreen = UnixClearScreen(cliAdapter())
 }
