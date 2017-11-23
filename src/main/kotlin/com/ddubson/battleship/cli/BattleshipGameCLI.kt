@@ -1,16 +1,17 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.Cell
-import com.ddubson.battleship.game.Direction
+import com.ddubson.battleship.game.*
 import com.ddubson.battleship.game.Direction.HORIZONTAL
 import com.ddubson.battleship.game.Direction.VERTICAL
-import com.ddubson.battleship.game.OceanGrid
-import com.ddubson.battleship.game.Player
 import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
 import com.ddubson.battleship.game.ship.Ship
 
 class BattleshipGameCLI(private val cliAdapter: CLIAdapter,
                         private val clearScreen: ClearScreen) : BattleshipGameUiAdapter {
+    override fun displayTargetGrid(targetGrid: TargetGrid) {
+        TODO()
+    }
+
     override fun announceWinner(player: Player) {
         cliAdapter.println("#### Player ${player.playerName()} wins! ####")
     }

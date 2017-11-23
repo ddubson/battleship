@@ -21,6 +21,7 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
         var opponent = game.currentOpponent()
 
         attacker.attack(opponent)
+        uiAdapter.displayTargetGrid(attacker.targetGrid())
 
         do {
             attacker = game.nextPlayer()
@@ -28,6 +29,7 @@ class BattleshipGameEngine(private val uiAdapter: BattleshipGameUiAdapter,
             opponent = game.currentOpponent()
 
             attacker.attack(opponent)
+            uiAdapter.displayTargetGrid(attacker.targetGrid())
         } while (opponent.hasShipsLeft())
 
         uiAdapter.announceWinner(game.currentAttacker())

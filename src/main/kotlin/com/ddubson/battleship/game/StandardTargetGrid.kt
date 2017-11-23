@@ -1,6 +1,10 @@
 package com.ddubson.battleship.game
 
 class StandardTargetGrid : TargetGrid {
+    override fun as2DString(): String {
+        TODO()
+    }
+
     private val size: Int = 8
     private val grid: Array2D<TargetCellStatus>
 

@@ -16,10 +16,12 @@ class BattleshipGameEngineTest : Spek({
         val oceanGrid2: OceanGrid = mock {}
 
         val player1: Player = mock {
+            on { targetGrid() } doReturn targetGrid1
             on { playerName() } doReturn "player1"
             on { hasShipsLeft() } doReturn false
         }
         val player2: Player = mock {
+            on { targetGrid() } doReturn targetGrid2
             on { playerName() } doReturn "player2"
             on { hasShipsLeft() } doReturn true
         }
@@ -60,14 +62,13 @@ class BattleshipGameEngineTest : Spek({
                 verify(player2).subscribe(game1)
             }
 
-            it("should notify that player 1 goes first") {
-                verify(uiAdapter).displayWarning("${player1.playerName()} goes first.")
-            }
-
             it("should choose player turns and continue until game is finished") {
+                verify(uiAdapter).displayWarning("${player1.playerName()} goes first.")
                 verify(player1).attack(player2)
+                verify(uiAdapter).displayTargetGrid(targetGrid1)
                 verify(uiAdapter).displayWarning("${player2.playerName()}, take your turn.")
                 verify(player2).attack(player1)
+                verify(uiAdapter).displayTargetGrid(targetGrid2)
             }
 
             it("should announce winner of the game once turns have been exhausted") {

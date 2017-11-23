@@ -1,9 +1,6 @@
 package com.ddubson.battleship.game.adapters
 
-import com.ddubson.battleship.game.Cell
-import com.ddubson.battleship.game.Direction
-import com.ddubson.battleship.game.OceanGrid
-import com.ddubson.battleship.game.Player
+import com.ddubson.battleship.game.*
 import com.ddubson.battleship.game.ship.Ship
 
 interface BattleshipGameUiAdapter {
@@ -16,5 +13,6 @@ interface BattleshipGameUiAdapter {
     fun askForAttackCell(): Cell
     fun displayWarning(message: String)
     fun displayOceanGrid(oceanGrid: OceanGrid)
+    fun displayTargetGrid(targetGrid: TargetGrid)
     fun announceWinner(player: Player)
 }

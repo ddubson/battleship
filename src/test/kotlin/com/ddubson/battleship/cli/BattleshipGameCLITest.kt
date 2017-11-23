@@ -1,9 +1,6 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.Cell
-import com.ddubson.battleship.game.Direction
-import com.ddubson.battleship.game.OceanGrid
-import com.ddubson.battleship.game.Player
+import com.ddubson.battleship.game.*
 import com.ddubson.battleship.game.ship.Carrier
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
@@ -131,6 +128,22 @@ class BattleshipGameCLITest : Spek({
                 verify(clearScreen).clear()
                 verify(cliAdapter).println(printedOceanGrid)
             }
+
+            it("should display an ocean grid") {
+                val cliAdapter: CLIAdapter = mock {}
+                val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock{})
+
+                val printedTargetGrid = "grid..."
+                val targetGrid: TargetGrid = mock {
+                    on { as2DString() } doReturn printedTargetGrid
+                }
+
+                battleshipGameCli.displayTargetGrid(targetGrid)
+
+                verify(cliAdapter).println(printedTargetGrid)
+            }
+
+
 
             it("should announce the winner of a game") {
                 val cliAdapter: CLIAdapter = mock {}
