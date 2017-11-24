@@ -1,6 +1,6 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.BattleshipGameEngine
+import com.ddubson.battleship.game.standard.BattleshipGameEngine
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
@@ -10,7 +10,6 @@ class BattleshipGameCLIApplication(private val gameEngine: BattleshipGameEngine)
     override fun run(vararg args: String?) {
         gameEngine.engage()
     }
-
 }
 
 fun main(args: Array<String>) {

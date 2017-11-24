@@ -1,10 +1,14 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.*
-import com.ddubson.battleship.game.Direction.HORIZONTAL
-import com.ddubson.battleship.game.Direction.VERTICAL
-import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
-import com.ddubson.battleship.game.ship.Ship
+import com.ddubson.battleship.game.core.Direction
+import com.ddubson.battleship.game.core.Direction.HORIZONTAL
+import com.ddubson.battleship.game.core.Direction.VERTICAL
+import com.ddubson.battleship.game.core.OceanGrid
+import com.ddubson.battleship.game.core.Player
+import com.ddubson.battleship.game.core.TargetGrid
+import com.ddubson.battleship.game.core.adapters.BattleshipGameUiAdapter
+import com.ddubson.battleship.game.core.cell.Cell
+import com.ddubson.battleship.game.core.ship.Ship
 
 class BattleshipGameCLI(private val cliAdapter: CLIAdapter,
                         private val clearScreen: ClearScreen) : BattleshipGameUiAdapter {

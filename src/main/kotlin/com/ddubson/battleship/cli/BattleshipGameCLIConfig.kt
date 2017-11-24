@@ -1,11 +1,17 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.*
-import com.ddubson.battleship.game.adapters.BattleshipGameUiAdapter
-import com.ddubson.battleship.game.adapters.GameComponentAdapter
-import com.ddubson.battleship.game.adapters.StandardGameComponentAdapter
-import com.ddubson.battleship.game.ship.ShipBuilder
-import com.ddubson.battleship.game.ship.StandardShipBuilder
+import com.ddubson.battleship.game.core.adapters.BattleshipGameUiAdapter
+import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
+import com.ddubson.battleship.game.core.builders.GameBuilder
+import com.ddubson.battleship.game.core.builders.GridBuilder
+import com.ddubson.battleship.game.core.builders.PlayerBuilder
+import com.ddubson.battleship.game.standard.adapters.StandardGameComponentAdapter
+import com.ddubson.battleship.game.core.builders.ShipBuilder
+import com.ddubson.battleship.game.standard.BattleshipGameEngine
+import com.ddubson.battleship.game.standard.builders.StandardGameBuilder
+import com.ddubson.battleship.game.standard.builders.StandardGridBuilder
+import com.ddubson.battleship.game.standard.builders.StandardPlayerBuilder
+import com.ddubson.battleship.game.standard.builders.StandardShipBuilder
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 

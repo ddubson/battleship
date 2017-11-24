@@ -1,7 +1,11 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.*
-import com.ddubson.battleship.game.ship.Carrier
+import com.ddubson.battleship.game.core.Direction
+import com.ddubson.battleship.game.core.OceanGrid
+import com.ddubson.battleship.game.core.Player
+import com.ddubson.battleship.game.core.TargetGrid
+import com.ddubson.battleship.game.core.cell.Cell
+import com.ddubson.battleship.game.core.ship.Carrier
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
