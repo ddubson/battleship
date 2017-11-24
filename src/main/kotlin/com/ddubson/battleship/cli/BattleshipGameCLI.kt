@@ -13,7 +13,7 @@ import com.ddubson.battleship.game.core.ship.Ship
 class BattleshipGameCLI(private val cliAdapter: CLIAdapter,
                         private val clearScreen: ClearScreen) : BattleshipGameUiAdapter {
     override fun displayTargetGrid(targetGrid: TargetGrid) {
-        TODO()
+        cliAdapter.println(targetGrid.as2DString())
     }
 
     override fun announceWinner(player: Player) {
@@ -58,6 +58,7 @@ class BattleshipGameCLI(private val cliAdapter: CLIAdapter,
     }
 
     override fun printBanner() {
+        clearScreen.clear()
         cliAdapter.println("--- Welcome to Battleship! ---")
     }
 

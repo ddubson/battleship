@@ -7,16 +7,33 @@ import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.TargetCellStatus
 
 class StandardTargetGrid : TargetGrid {
-    override fun as2DString(): String {
-        TODO()
-    }
-
     private val size: Int = 8
     private val grid: Array2D<TargetCellStatus>
 
     init {
         val array = Array(size, { Array(size, { TargetCellStatus.OPEN }) })
         grid = Array2D(size, size, array)
+    }
+
+    override fun as2DString(): String {
+        var gridVis = "    0 1 2 3 4 5 6 7\n  + - - - - - - - - +\n"
+
+        (0 until grid.xSize).forEach { y ->
+            gridVis = gridVis.plus("$y | ")
+            (0 until grid.ySize).forEach { x ->
+                val symbol = when (grid[x, y]) {
+                    TargetCellStatus.HIT -> "*"
+                    TargetCellStatus.MISS -> "x"
+                    else -> " "
+                }
+                gridVis = gridVis.plus("$symbol ")
+            }
+            gridVis = gridVis.plus("|\n")
+        }
+
+        gridVis = gridVis.plus("  + - - - - - - - - +").trimIndent()
+
+        return gridVis
     }
 
     override fun markWithStatus(cell: Cell, targetCellStatus: TargetCellStatus) {
