@@ -7,3 +7,5 @@ class ShipOverlapsException: RuntimeException()
 class CellAlreadyEngagedException: RuntimeException()
 
 class ShipBeyondBoundsException: RuntimeException()
+
+class InvalidInputException: RuntimeException()

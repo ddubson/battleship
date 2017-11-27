@@ -1,11 +1,8 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.core.Direction
+import com.ddubson.battleship.game.core.*
 import com.ddubson.battleship.game.core.Direction.HORIZONTAL
 import com.ddubson.battleship.game.core.Direction.VERTICAL
-import com.ddubson.battleship.game.core.OceanGrid
-import com.ddubson.battleship.game.core.Player
-import com.ddubson.battleship.game.core.TargetGrid
 import com.ddubson.battleship.game.core.adapters.BattleshipGameUiAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.ship.Ship
@@ -64,7 +61,14 @@ class BattleshipGameCLI(private val cliAdapter: CLIAdapter,
 
     private fun readCellFromCLI(msg: String): Cell {
         cliAdapter.print(msg)
-        val cellInput = cliAdapter.readLine().split(" ")
-        return Cell(cellInput[0].toInt(), cellInput[1].toInt())
+
+        val rawInput = cliAdapter.readLine()
+        if(rawInput.isBlank() ||
+                !rawInput.matches(Regex("^[0-9] [0-9]$"))) {
+            throw InvalidInputException()
+        }
+
+        val coordinates = rawInput.split(" ").map { it.toInt() }
+        return Cell(coordinates[0], coordinates[1])
     }
 }

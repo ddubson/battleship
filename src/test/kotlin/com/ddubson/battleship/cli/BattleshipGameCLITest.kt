@@ -1,9 +1,6 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.core.Direction
-import com.ddubson.battleship.game.core.OceanGrid
-import com.ddubson.battleship.game.core.Player
-import com.ddubson.battleship.game.core.TargetGrid
+import com.ddubson.battleship.game.core.*
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.ship.Carrier
 import com.nhaarman.mockito_kotlin.doReturn
@@ -14,6 +11,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertThrows
 
 class BattleshipGameCLITest : Spek({
     given("a battleship game cli") {
@@ -60,6 +58,23 @@ class BattleshipGameCLITest : Spek({
             it("should return a cell given proper input") {
                 assertEquals(actualCell.x, expectedCell.x)
                 assertEquals(actualCell.y, expectedCell.y)
+            }
+        }
+
+        on("user entering wrongly formatted cell") {
+            it("should throw an error for an empty string") {
+                val cliAdapter: CLIAdapter = mock { on { readLine() } doReturn "" }
+                assertInvalidInput(cliAdapter)
+            }
+
+            it("should throw an error for a non-number") {
+                val cliAdapter: CLIAdapter = mock { on { readLine() } doReturn "A" }
+                assertInvalidInput(cliAdapter)
+            }
+
+            it("should throw an error for a mix of alphas") {
+                val cliAdapter: CLIAdapter = mock { on { readLine() } doReturn "A 1" }
+                assertInvalidInput(cliAdapter)
             }
         }
 
@@ -162,6 +177,12 @@ class BattleshipGameCLITest : Spek({
                 verify(cliAdapter).println("#### Player ${player.playerName()} wins! ####")
             }
         }
-
     }
 })
+
+fun assertInvalidInput(cliAdapter: CLIAdapter) {
+    val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+    assertThrows(InvalidInputException::class.java, {
+        battleshipGameCli.askForCell(Carrier())
+    })
+}
