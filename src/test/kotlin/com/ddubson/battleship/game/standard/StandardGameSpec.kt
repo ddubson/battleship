@@ -1,6 +1,6 @@
 package com.ddubson.battleship.game.standard
 
-import com.ddubson.battleship.game.core.adapters.BattleshipGameUiAdapter
+import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.TargetCellStatus
 import com.nhaarman.mockito_kotlin.doReturn
@@ -45,14 +45,14 @@ internal class StandardGameSpec : Spek({
 
         on("attack event") {
             val expectedCell = Cell(1, 1)
-            val uiAdapter: BattleshipGameUiAdapter = mock {
+            val CLIAdapter: BattleshipGameCLIAdapter = mock {
                 on { askForAttackCell() } doReturn expectedCell
             }
-            val game = StandardGame(player1, player2, uiAdapter)
+            val game = StandardGame(player1, player2, CLIAdapter)
             val actualCell = game.onAttackEvent()
 
             it("should prompt user to enter attack cell") {
-                verify(uiAdapter).askForAttackCell()
+                verify(CLIAdapter).askForAttackCell()
             }
 
             it("should return the created cell") {
@@ -61,22 +61,22 @@ internal class StandardGameSpec : Spek({
         }
 
         on("after attack event") {
-            val uiAdapter: BattleshipGameUiAdapter = mock {}
-            val game = StandardGame(player1, player2, uiAdapter)
+            val CLIAdapter: BattleshipGameCLIAdapter = mock {}
+            val game = StandardGame(player1, player2, CLIAdapter)
 
             it("should display that the attacker missed if target cell is a miss") {
                 game.afterAttackEvent(player1, player2, TargetCellStatus.MISS)
-                verify(uiAdapter).displayWarning("It's a miss!")
+                verify(CLIAdapter).displayWarning("It's a miss!")
             }
 
             it("should display that the attacker hit if target cell is a hit") {
                 game.afterAttackEvent(player1, player2, TargetCellStatus.HIT)
-                verify(uiAdapter).displayWarning("It's a hit!")
+                verify(CLIAdapter).displayWarning("It's a hit!")
             }
 
             it("should display a warning if target cell is not a hit or miss") {
                 game.afterAttackEvent(player1, player2, TargetCellStatus.OPEN)
-                verify(uiAdapter).displayWarning("Could not calculate attack result.")
+                verify(CLIAdapter).displayWarning("Could not calculate attack result.")
             }
         }
     }

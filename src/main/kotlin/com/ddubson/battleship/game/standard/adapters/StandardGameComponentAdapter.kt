@@ -4,28 +4,28 @@ import com.ddubson.battleship.game.core.Game
 import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.Player
 import com.ddubson.battleship.game.core.ShipOverlapsException
-import com.ddubson.battleship.game.core.adapters.BattleshipGameUiAdapter
+import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
 import com.ddubson.battleship.game.core.builders.GameBuilder
 import com.ddubson.battleship.game.core.builders.GridBuilder
 import com.ddubson.battleship.game.core.builders.PlayerBuilder
-import com.ddubson.battleship.game.core.ship.Ship
 import com.ddubson.battleship.game.core.builders.ShipBuilder
+import com.ddubson.battleship.game.core.ship.Ship
 
-class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapter,
+class StandardGameComponentAdapter(private val CLIAdapter: BattleshipGameCLIAdapter,
                                    private val shipBuilder: ShipBuilder,
                                    private val gridBuilder: GridBuilder,
                                    private val gameBuilder: GameBuilder,
                                    private val playerBuilder: PlayerBuilder) : GameComponentAdapter {
     override fun createPlayerOne(): Player =
-            playerBuilder.newPlayer(uiAdapter.askForPlayerName(), createOceanGrid(),
+            playerBuilder.newPlayer(CLIAdapter.askForPlayerName(), createOceanGrid(),
                     gridBuilder.newTargetGrid())
 
     override fun createPlayerTwo(): Player =
-            playerBuilder.newPlayer(uiAdapter.askForPlayerName(), createOceanGrid(),
+            playerBuilder.newPlayer(CLIAdapter.askForPlayerName(), createOceanGrid(),
                     gridBuilder.newTargetGrid())
 
-    override fun createGame(player1: Player, player2: Player): Game = gameBuilder.newGame(player1, player2, uiAdapter)
+    override fun createGame(player1: Player, player2: Player): Game = gameBuilder.newGame(player1, player2, CLIAdapter)
 
     override fun createOceanGrid(): OceanGrid {
         val oceanGrid = gridBuilder.newOceanGrid()
@@ -40,9 +40,9 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
     }
 
     private fun place(grid: OceanGrid, ship: Ship) {
-        uiAdapter.placeShipBanner(ship.type())
-        val initialCell = uiAdapter.askForCell(ship)
-        val direction = uiAdapter.askForDirection(ship)
+        CLIAdapter.placeShipBanner(ship.type())
+        val initialCell = CLIAdapter.askForCell(ship)
+        val direction = CLIAdapter.askForDirection(ship)
 
         try {
             grid.place(ship, initialCell, direction)
@@ -50,11 +50,11 @@ class StandardGameComponentAdapter(private val uiAdapter: BattleshipGameUiAdapte
             warnOfShipOverlap(grid, ship)
         }
 
-        uiAdapter.displayOceanGrid(grid)
+        CLIAdapter.displayOceanGrid(grid)
     }
 
     private fun warnOfShipOverlap(grid: OceanGrid, ship: Ship) {
-        uiAdapter.displayWarning("${ship.type()} overlaps another! please choose different coordinates.")
+        CLIAdapter.displayWarning("${ship.type()} overlaps another! please choose different coordinates.")
         place(grid, ship)
     }
 }

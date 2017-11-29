@@ -2,7 +2,7 @@ package com.ddubson.battleship.game.standard
 
 import com.ddubson.battleship.game.core.Game
 import com.ddubson.battleship.game.core.Player
-import com.ddubson.battleship.game.core.adapters.BattleshipGameUiAdapter
+import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.TargetCellStatus
 import java.util.*
@@ -10,7 +10,7 @@ import java.util.concurrent.ArrayBlockingQueue
 
 class StandardGame(player1: Player,
                    player2: Player,
-                   private val uiAdapter: BattleshipGameUiAdapter) : Game {
+                   private val CLIAdapter: BattleshipGameCLIAdapter) : Game {
     private val turnQueue: Queue<Player>
 
     init {
@@ -28,13 +28,13 @@ class StandardGame(player1: Player,
         return turnQueue.element()
     }
 
-    override fun onAttackEvent(): Cell = uiAdapter.askForAttackCell()
+    override fun onAttackEvent(): Cell = CLIAdapter.askForAttackCell()
 
     override fun afterAttackEvent(attacker: Player, opponent: Player, cellStatus: TargetCellStatus) {
         when(cellStatus) {
-            TargetCellStatus.MISS -> uiAdapter.displayWarning("It's a miss!")
-            TargetCellStatus.HIT -> uiAdapter.displayWarning("It's a hit!")
-            else -> uiAdapter.displayWarning("Could not calculate attack result.")
+            TargetCellStatus.MISS -> CLIAdapter.displayWarning("It's a miss!")
+            TargetCellStatus.HIT -> CLIAdapter.displayWarning("It's a hit!")
+            else -> CLIAdapter.displayWarning("Could not calculate attack result.")
         }
     }
 }

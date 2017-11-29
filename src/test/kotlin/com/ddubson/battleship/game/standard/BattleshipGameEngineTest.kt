@@ -4,7 +4,7 @@ import com.ddubson.battleship.game.core.Game
 import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.Player
 import com.ddubson.battleship.game.core.TargetGrid
-import com.ddubson.battleship.game.core.adapters.BattleshipGameUiAdapter
+import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
@@ -44,19 +44,19 @@ class BattleshipGameEngineTest : Spek({
             on { createGame(player1, player2) } doReturn game1
         }
 
-        val uiAdapter: BattleshipGameUiAdapter = mock {}
-        val engine = BattleshipGameEngine(uiAdapter, gameComponentAdapter)
+        val CLIAdapter: BattleshipGameCLIAdapter = mock {}
+        val engine = BattleshipGameEngine(CLIAdapter, gameComponentAdapter)
 
         on("engage") {
             engine.engage()
 
             it("should print Battleship game banner") {
-                verify(uiAdapter).printBanner()
+                verify(CLIAdapter).printBanner()
             }
 
             it("should create and announce players") {
-                verify(uiAdapter).announcePlayer(player1)
-                verify(uiAdapter).announcePlayer(player2)
+                verify(CLIAdapter).announcePlayer(player1)
+                verify(CLIAdapter).announcePlayer(player2)
             }
 
             it("should create a game") {
@@ -69,16 +69,16 @@ class BattleshipGameEngineTest : Spek({
             }
 
             it("should choose player turns and continue until game is finished") {
-                verify(uiAdapter).displayWarning("${player1.playerName()} goes first.")
+                verify(CLIAdapter).displayWarning("${player1.playerName()} goes first.")
                 verify(player1).attack(player2)
-                verify(uiAdapter).displayTargetGrid(targetGrid1)
-                verify(uiAdapter).displayWarning("${player2.playerName()}, take your turn.")
+                verify(CLIAdapter).displayTargetGrid(targetGrid1)
+                verify(CLIAdapter).displayWarning("${player2.playerName()}, take your turn.")
                 verify(player2).attack(player1)
-                verify(uiAdapter).displayTargetGrid(targetGrid2)
+                verify(CLIAdapter).displayTargetGrid(targetGrid2)
             }
 
             it("should announce winner of the game once turns have been exhausted") {
-                verify(uiAdapter).announceWinner(player2)
+                verify(CLIAdapter).announceWinner(player2)
             }
         }
     }

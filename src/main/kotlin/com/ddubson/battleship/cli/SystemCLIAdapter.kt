@@ -1,13 +1,13 @@
 package com.ddubson.battleship.cli
 
-interface CLIAdapter {
+interface SystemCLIAdapter {
     fun print(msg: String)
     fun println(msg: String)
     fun readLine(): String
     fun flush()
 }
 
-open class StandardCLIAdapter : CLIAdapter {
+open class StandardSystemCLIAdapter : SystemCLIAdapter {
     override fun flush() {
         System.out.flush()
     }

@@ -1,7 +1,7 @@
 package com.ddubson.battleship.game.standard.adapters
 
 import com.ddubson.battleship.game.core.*
-import com.ddubson.battleship.game.core.adapters.BattleshipGameUiAdapter
+import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.builders.GameBuilder
 import com.ddubson.battleship.game.core.builders.GridBuilder
 import com.ddubson.battleship.game.core.builders.PlayerBuilder
@@ -28,7 +28,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val direction = Direction.HORIZONTAL
             val oceanGrid: OceanGrid = mock {}
 
-            val uiAdapter: BattleshipGameUiAdapter = mock {
+            val CLIAdapter: BattleshipGameCLIAdapter = mock {
                 on { askForCell(carrier) } doReturn cell
                 on { askForDirection(carrier) } doReturn direction
                 on { askForCell(cruiser) } doReturn cell
@@ -52,7 +52,7 @@ class StandardGameComponentAdapterSpec : Spek({
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    uiAdapter, shipBuilder, gridBuilder, mock {}, mock {})
+                    CLIAdapter, shipBuilder, gridBuilder, mock {}, mock {})
 
             val actualOceanGrid = gameComponentAdapter.createOceanGrid()
 
@@ -61,42 +61,42 @@ class StandardGameComponentAdapterSpec : Spek({
             }
 
             it("should display ocean grid as the user is placing the ships") {
-                verify(uiAdapter, times(5)).displayOceanGrid(oceanGrid)
+                verify(CLIAdapter, times(5)).displayOceanGrid(oceanGrid)
             }
 
             it("should place Carrier") {
-                verify(uiAdapter).placeShipBanner(carrier.type())
+                verify(CLIAdapter).placeShipBanner(carrier.type())
                 verify(shipBuilder).newCarrier()
-                verify(uiAdapter).askForCell(carrier)
-                verify(uiAdapter).askForDirection(carrier)
+                verify(CLIAdapter).askForCell(carrier)
+                verify(CLIAdapter).askForDirection(carrier)
             }
 
             it("should place Cruiser") {
-                verify(uiAdapter).placeShipBanner(cruiser.type())
+                verify(CLIAdapter).placeShipBanner(cruiser.type())
                 verify(shipBuilder).newCruiser()
-                verify(uiAdapter).askForCell(cruiser)
-                verify(uiAdapter).askForDirection(cruiser)
+                verify(CLIAdapter).askForCell(cruiser)
+                verify(CLIAdapter).askForDirection(cruiser)
             }
 
             it("should place Destroyer") {
-                verify(uiAdapter).placeShipBanner(destroyer.type())
+                verify(CLIAdapter).placeShipBanner(destroyer.type())
                 verify(shipBuilder).newDestroyer()
-                verify(uiAdapter).askForCell(destroyer)
-                verify(uiAdapter).askForDirection(destroyer)
+                verify(CLIAdapter).askForCell(destroyer)
+                verify(CLIAdapter).askForDirection(destroyer)
             }
 
             it("should place Submarine") {
-                verify(uiAdapter).placeShipBanner(submarine.type())
+                verify(CLIAdapter).placeShipBanner(submarine.type())
                 verify(shipBuilder).newSubmarine()
-                verify(uiAdapter).askForCell(submarine)
-                verify(uiAdapter).askForDirection(submarine)
+                verify(CLIAdapter).askForCell(submarine)
+                verify(CLIAdapter).askForDirection(submarine)
             }
 
             it("should place Battleship") {
-                verify(uiAdapter).placeShipBanner(battleship.type())
+                verify(CLIAdapter).placeShipBanner(battleship.type())
                 verify(shipBuilder).newBattleship()
-                verify(uiAdapter).askForCell(battleship)
-                verify(uiAdapter).askForDirection(battleship)
+                verify(CLIAdapter).askForCell(battleship)
+                verify(CLIAdapter).askForDirection(battleship)
             }
 
             it("should create an ocean grid") {
@@ -109,16 +109,16 @@ class StandardGameComponentAdapterSpec : Spek({
             val player1 = StandardPlayer("Player1", mock {}, targetGrid)
             val player2 = StandardPlayer("Player2", mock {}, targetGrid)
             val game: Game = mock {}
-            val uiAdapter: BattleshipGameUiAdapter = mock {}
+            val CLIAdapter: BattleshipGameCLIAdapter = mock {}
             val gameBuilder: GameBuilder = mock {
-                on { newGame(player1, player2, uiAdapter) } doReturn game
+                on { newGame(player1, player2, CLIAdapter) } doReturn game
             }
             val gridBuilder: GridBuilder = mock {
                 on { newTargetGrid() } doReturn targetGrid
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    uiAdapter, mock {}, gridBuilder, gameBuilder, mock {})
+                    CLIAdapter, mock {}, gridBuilder, gameBuilder, mock {})
 
             val actualGame = gameComponentAdapter.createGame(player1, player2)
 
@@ -146,12 +146,12 @@ class StandardGameComponentAdapterSpec : Spek({
                 on { newSubmarine() } doReturn Submarine()
                 on { newDestroyer() } doReturn Destroyer()
             }
-            val uiAdapter: BattleshipGameUiAdapter = mock {
+            val CLIAdapter: BattleshipGameCLIAdapter = mock {
                 on { askForPlayerName() } doReturn playerName
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    uiAdapter, shipBuilder, gridBuilder, mock {}, playerBuilder)
+                    CLIAdapter, shipBuilder, gridBuilder, mock {}, playerBuilder)
 
             val actualPlayer = gameComponentAdapter.createPlayerOne()
 
@@ -160,7 +160,7 @@ class StandardGameComponentAdapterSpec : Spek({
             }
 
             it("should ask for player name") {
-                verify(uiAdapter).askForPlayerName()
+                verify(CLIAdapter).askForPlayerName()
             }
 
             it("should return player") {
@@ -176,7 +176,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val playerBuilder: PlayerBuilder = mock {
                 on { newPlayer(playerName, oceanGrid, targetGrid) } doReturn player
             }
-            val uiAdapter: BattleshipGameUiAdapter = mock {
+            val CLIAdapter: BattleshipGameCLIAdapter = mock {
                 on { askForPlayerName() } doReturn playerName
             }
             val shipBuilder: ShipBuilder = mock {
@@ -192,7 +192,7 @@ class StandardGameComponentAdapterSpec : Spek({
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    uiAdapter, shipBuilder, gridBuilder, mock {}, playerBuilder)
+                    CLIAdapter, shipBuilder, gridBuilder, mock {}, playerBuilder)
 
             val actualPlayer = gameComponentAdapter.createPlayerTwo()
 
@@ -201,7 +201,7 @@ class StandardGameComponentAdapterSpec : Spek({
             }
 
             it("should ask for player name") {
-                verify(uiAdapter).askForPlayerName()
+                verify(CLIAdapter).askForPlayerName()
             }
 
             it("should return player") {
@@ -218,7 +218,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val oceanGrid: OceanGrid = mock {
                 on { place(ship, badCell, direction) } doThrow ShipOverlapsException()
             }
-            val uiAdapter: BattleshipGameUiAdapter = mock {
+            val CLIAdapter: BattleshipGameCLIAdapter = mock {
                 on { askForCell(ship) } doReturn badCell doReturn goodCell
                 on { askForDirection(ship) } doReturn direction
             }
@@ -233,14 +233,14 @@ class StandardGameComponentAdapterSpec : Spek({
                 on { newOceanGrid() } doReturn oceanGrid
             }
 
-            val gameComponentAdapter = StandardGameComponentAdapter(uiAdapter,
+            val gameComponentAdapter = StandardGameComponentAdapter(CLIAdapter,
                     shipBuilder, gridBuilder, mock {}, mock {})
 
             gameComponentAdapter.createOceanGrid()
 
             it("should prompt the user to choose another space") {
                 verify(oceanGrid).place(ship, badCell, direction)
-                verify(uiAdapter).displayWarning("Carrier overlaps another! please choose different coordinates.")
+                verify(CLIAdapter).displayWarning("Carrier overlaps another! please choose different coordinates.")
                 verify(oceanGrid).place(ship, goodCell, direction)
             }
         }
