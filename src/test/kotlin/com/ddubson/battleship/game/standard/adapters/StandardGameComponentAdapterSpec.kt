@@ -146,21 +146,14 @@ class StandardGameComponentAdapterSpec : Spek({
                 on { newSubmarine() } doReturn Submarine()
                 on { newDestroyer() } doReturn Destroyer()
             }
-            val CLIAdapter: BattleshipGameCLIAdapter = mock {
-                on { askForPlayerName() } doReturn playerName
-            }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    CLIAdapter, shipBuilder, gridBuilder, mock {}, playerBuilder)
+                    mock {}, shipBuilder, gridBuilder, mock {}, playerBuilder)
 
-            val actualPlayer = gameComponentAdapter.createPlayerOne()
+            val actualPlayer = gameComponentAdapter.createPlayerOne(playerName, oceanGrid)
 
             it("should call player builder") {
                 verify(playerBuilder).newPlayer(playerName, oceanGrid, targetGrid)
-            }
-
-            it("should ask for player name") {
-                verify(CLIAdapter).askForPlayerName()
             }
 
             it("should return player") {
@@ -176,9 +169,6 @@ class StandardGameComponentAdapterSpec : Spek({
             val playerBuilder: PlayerBuilder = mock {
                 on { newPlayer(playerName, oceanGrid, targetGrid) } doReturn player
             }
-            val CLIAdapter: BattleshipGameCLIAdapter = mock {
-                on { askForPlayerName() } doReturn playerName
-            }
             val shipBuilder: ShipBuilder = mock {
                 on { newCarrier() } doReturn Carrier()
                 on { newBattleship() } doReturn Battleship()
@@ -192,16 +182,12 @@ class StandardGameComponentAdapterSpec : Spek({
             }
 
             val gameComponentAdapter = StandardGameComponentAdapter(
-                    CLIAdapter, shipBuilder, gridBuilder, mock {}, playerBuilder)
+                    mock{}, shipBuilder, gridBuilder, mock {}, playerBuilder)
 
-            val actualPlayer = gameComponentAdapter.createPlayerTwo()
+            val actualPlayer = gameComponentAdapter.createPlayerTwo(playerName, oceanGrid)
 
             it("should call player builder") {
                 verify(playerBuilder).newPlayer(playerName, oceanGrid, targetGrid)
-            }
-
-            it("should ask for player name") {
-                verify(CLIAdapter).askForPlayerName()
             }
 
             it("should return player") {
@@ -242,6 +228,28 @@ class StandardGameComponentAdapterSpec : Spek({
                 verify(oceanGrid).place(ship, badCell, direction)
                 verify(CLIAdapter).displayWarning("Carrier overlaps another! please choose different coordinates.")
                 verify(oceanGrid).place(ship, goodCell, direction)
+            }
+        }
+
+        on("failing to enter cell coordinates for a ship") {
+            val oceanGrid: OceanGrid = mock {}
+            val gridBuilder: GridBuilder = mock {
+                on { newOceanGrid() } doReturn oceanGrid
+            }
+            val shipBuilder: ShipBuilder = mock {
+                on { newCarrier() } doReturn Carrier()
+                on { newBattleship() } doReturn Battleship()
+                on { newCruiser() } doReturn Cruiser()
+                on { newSubmarine() } doReturn Submarine()
+                on { newDestroyer() } doReturn Destroyer()
+            }
+
+            val componentAdapter = StandardGameComponentAdapter(mock {}, shipBuilder, gridBuilder, mock {}, mock {})
+
+            componentAdapter.createOceanGrid()
+
+            it("should ask to enter cell coordinates again") {
+                verify(cliAdapter).displayWarning("Incorrect coordinates! Try again.")
             }
         }
     }

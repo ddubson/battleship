@@ -8,6 +8,7 @@ import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
@@ -39,12 +40,14 @@ class BattleshipGameEngineTest : Spek({
 
         val gameComponentAdapter: GameComponentAdapter = mock {
             on { createOceanGrid() } doReturn oceanGrid1 doReturn oceanGrid2
-            on { createPlayerOne() } doReturn player1
-            on { createPlayerTwo() } doReturn player2
+            on { createPlayerOne("player1", oceanGrid1) } doReturn player1
+            on { createPlayerTwo("player2", oceanGrid2) } doReturn player2
             on { createGame(player1, player2) } doReturn game1
         }
 
-        val CLIAdapter: BattleshipGameCLIAdapter = mock {}
+        val CLIAdapter: BattleshipGameCLIAdapter = mock {
+            on { askForPlayerName() } doReturn "player1" doReturn "player2"
+        }
         val engine = BattleshipGameEngine(CLIAdapter, gameComponentAdapter)
 
         on("engage") {
@@ -54,9 +57,18 @@ class BattleshipGameEngineTest : Spek({
                 verify(CLIAdapter).printBanner()
             }
 
+            it("should create an ocean grid for both players") {
+                verify(gameComponentAdapter, times(2)).createOceanGrid()
+            }
+
             it("should create and announce players") {
                 verify(CLIAdapter).announcePlayer(player1)
                 verify(CLIAdapter).announcePlayer(player2)
+            }
+
+            it("should create two players") {
+                verify(gameComponentAdapter).createPlayerOne("player1", oceanGrid1)
+                verify(gameComponentAdapter).createPlayerTwo("player2", oceanGrid2)
             }
 
             it("should create a game") {

@@ -7,9 +7,13 @@ class BattleshipGameEngine(private val CLIAdapter: BattleshipGameCLIAdapter,
                            private val gameComponentAdapter: GameComponentAdapter) {
     fun engage() {
         CLIAdapter.printBanner()
-        val player1 = gameComponentAdapter.createPlayerOne()
+
+        val playerOneOceanGrid = gameComponentAdapter.createOceanGrid()
+        val player1 = gameComponentAdapter.createPlayerOne(CLIAdapter.askForPlayerName(), playerOneOceanGrid)
         CLIAdapter.announcePlayer(player1)
-        val player2 = gameComponentAdapter.createPlayerTwo()
+
+        val playerTwoOceanGrid = gameComponentAdapter.createOceanGrid()
+        val player2 = gameComponentAdapter.createPlayerTwo(CLIAdapter.askForPlayerName(), playerTwoOceanGrid)
         CLIAdapter.announcePlayer(player2)
 
         val game = gameComponentAdapter.createGame(player1, player2)

@@ -17,13 +17,11 @@ class StandardGameComponentAdapter(private val CLIAdapter: BattleshipGameCLIAdap
                                    private val gridBuilder: GridBuilder,
                                    private val gameBuilder: GameBuilder,
                                    private val playerBuilder: PlayerBuilder) : GameComponentAdapter {
-    override fun createPlayerOne(): Player =
-            playerBuilder.newPlayer(CLIAdapter.askForPlayerName(), createOceanGrid(),
-                    gridBuilder.newTargetGrid())
+    override fun createPlayerOne(playerName: String, oceanGrid: OceanGrid): Player =
+            playerBuilder.newPlayer(playerName, oceanGrid, gridBuilder.newTargetGrid())
 
-    override fun createPlayerTwo(): Player =
-            playerBuilder.newPlayer(CLIAdapter.askForPlayerName(), createOceanGrid(),
-                    gridBuilder.newTargetGrid())
+    override fun createPlayerTwo(playerName: String, oceanGrid: OceanGrid): Player =
+            playerBuilder.newPlayer(playerName, oceanGrid, gridBuilder.newTargetGrid())
 
     override fun createGame(player1: Player, player2: Player): Game = gameBuilder.newGame(player1, player2, CLIAdapter)
 
