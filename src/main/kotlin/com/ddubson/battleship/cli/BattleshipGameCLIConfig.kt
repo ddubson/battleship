@@ -19,14 +19,14 @@ import org.springframework.context.annotation.Configuration
 class BattleshipGameCLIConfig {
     @Bean
     fun gameEngine(): BattleshipGameEngine = BattleshipGameEngine(
-            battleshipGameCliAdapter(), gameComponentAdapter())
+            battleshipGameCliAdapter(), gameComponentAdapter(), shipBuilder())
 
     @Bean
     fun battleshipGameCliAdapter(): BattleshipGameCLIAdapter = BattleshipGameCLI(cliAdapter(), clearScreen())
 
     @Bean
     fun gameComponentAdapter(): GameComponentAdapter = StandardGameComponentAdapter(
-            battleshipGameCliAdapter(), shipBuilder(), gridBuilder(), gameBuilder(), playerBuilder())
+            battleshipGameCliAdapter(), gridBuilder(), gameBuilder(), playerBuilder())
 
     @Bean
     fun gridBuilder(): GridBuilder = StandardGridBuilder()
