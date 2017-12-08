@@ -15,19 +15,27 @@ class BattleshipGameEngine(private val CLIAdapter: BattleshipGameCLIAdapter,
 
         val oceanGrid1 = gameComponentAdapter.createOceanGrid()
         place(oceanGrid1, shipBuilder.newCarrier())
+        cliAdapter.displayOceanGrid(oceanGrid)
         place(oceanGrid1, shipBuilder.newCruiser())
+        cliAdapter.displayOceanGrid(oceanGrid)
         place(oceanGrid1, shipBuilder.newDestroyer())
+        cliAdapter.displayOceanGrid(oceanGrid)
         place(oceanGrid1, shipBuilder.newSubmarine())
+        cliAdapter.displayOceanGrid(oceanGrid)
         place(oceanGrid1, shipBuilder.newBattleship())
-
+        cliAdapter.displayOceanGrid(oceanGrid)
         val player1 = gameComponentAdapter.createPlayerOne(CLIAdapter.askForPlayerName(), oceanGrid1)
         CLIAdapter.announcePlayer(player1)
 
         val oceanGrid2 = gameComponentAdapter.createOceanGrid()
         place(oceanGrid2, shipBuilder.newCarrier())
+        cliAdapter.displayOceanGrid(oceanGrid)
         place(oceanGrid2, shipBuilder.newCruiser())
+        cliAdapter.displayOceanGrid(oceanGrid)
         place(oceanGrid2, shipBuilder.newDestroyer())
+        cliAdapter.displayOceanGrid(oceanGrid)
         place(oceanGrid2, shipBuilder.newSubmarine())
+        cliAdapter.displayOceanGrid(oceanGrid)
         place(oceanGrid2, shipBuilder.newBattleship())
         val player2 = gameComponentAdapter.createPlayerTwo(CLIAdapter.askForPlayerName(), oceanGrid2)
         CLIAdapter.announcePlayer(player2)
@@ -53,24 +61,5 @@ class BattleshipGameEngine(private val CLIAdapter: BattleshipGameCLIAdapter,
         } while (opponent.hasShipsLeft())
 
         CLIAdapter.announceWinner(game.currentAttacker())
-    }
-
-    private fun place(grid: OceanGrid, ship: Ship) {
-        CLIAdapter.placeShipBanner(ship.type())
-        val initialCell = CLIAdapter.askForCell(ship)
-        val direction = CLIAdapter.askForDirection(ship)
-
-        try {
-            grid.place(ship, initialCell, direction)
-        } catch (ex: ShipOverlapsException) {
-            warnOfShipOverlap(grid, ship)
-        }
-
-        CLIAdapter.displayOceanGrid(grid)
-    }
-
-    private fun warnOfShipOverlap(grid: OceanGrid, ship: Ship) {
-        CLIAdapter.displayWarning("${ship.type()} overlaps another! please choose different coordinates.")
-        place(grid, ship)
     }
 }
