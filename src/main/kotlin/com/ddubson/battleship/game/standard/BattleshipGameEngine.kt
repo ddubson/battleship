@@ -1,43 +1,47 @@
 package com.ddubson.battleship.game.standard
 
-import com.ddubson.battleship.game.core.OceanGrid
-import com.ddubson.battleship.game.core.ShipOverlapsException
+import com.ddubson.battleship.game.core.ShipPlacer
 import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
 import com.ddubson.battleship.game.core.builders.ShipBuilder
-import com.ddubson.battleship.game.core.ship.Ship
 
 class BattleshipGameEngine(private val CLIAdapter: BattleshipGameCLIAdapter,
                            private val gameComponentAdapter: GameComponentAdapter,
-                           private val shipBuilder: ShipBuilder) {
+                           private val shipBuilder: ShipBuilder,
+                           private val shipPlacer: ShipPlacer) {
     fun engage() {
         CLIAdapter.printBanner()
 
+        val playerName1 = CLIAdapter.askForPlayerName()
         val oceanGrid1 = gameComponentAdapter.createOceanGrid()
-        place(oceanGrid1, shipBuilder.newCarrier())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        place(oceanGrid1, shipBuilder.newCruiser())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        place(oceanGrid1, shipBuilder.newDestroyer())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        place(oceanGrid1, shipBuilder.newSubmarine())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        place(oceanGrid1, shipBuilder.newBattleship())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        val player1 = gameComponentAdapter.createPlayerOne(CLIAdapter.askForPlayerName(), oceanGrid1)
+        shipPlacer.place(oceanGrid1, shipBuilder.newCarrier())
+        CLIAdapter.displayOceanGrid(oceanGrid1)
+        shipPlacer.place(oceanGrid1, shipBuilder.newCruiser())
+        CLIAdapter.displayOceanGrid(oceanGrid1)
+        shipPlacer.place(oceanGrid1, shipBuilder.newDestroyer())
+        CLIAdapter.displayOceanGrid(oceanGrid1)
+        shipPlacer.place(oceanGrid1, shipBuilder.newSubmarine())
+        CLIAdapter.displayOceanGrid(oceanGrid1)
+        shipPlacer.place(oceanGrid1, shipBuilder.newBattleship())
+        CLIAdapter.displayOceanGrid(oceanGrid1)
+
+        val player1 = gameComponentAdapter.createPlayerOne(playerName1, oceanGrid1)
         CLIAdapter.announcePlayer(player1)
 
+        val playerName2 = CLIAdapter.askForPlayerName()
         val oceanGrid2 = gameComponentAdapter.createOceanGrid()
-        place(oceanGrid2, shipBuilder.newCarrier())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        place(oceanGrid2, shipBuilder.newCruiser())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        place(oceanGrid2, shipBuilder.newDestroyer())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        place(oceanGrid2, shipBuilder.newSubmarine())
-        cliAdapter.displayOceanGrid(oceanGrid)
-        place(oceanGrid2, shipBuilder.newBattleship())
-        val player2 = gameComponentAdapter.createPlayerTwo(CLIAdapter.askForPlayerName(), oceanGrid2)
+        shipPlacer.place(oceanGrid2, shipBuilder.newCarrier())
+        CLIAdapter.displayOceanGrid(oceanGrid2)
+        shipPlacer.place(oceanGrid2, shipBuilder.newCruiser())
+        CLIAdapter.displayOceanGrid(oceanGrid2)
+        shipPlacer.place(oceanGrid2, shipBuilder.newDestroyer())
+        CLIAdapter.displayOceanGrid(oceanGrid2)
+        shipPlacer.place(oceanGrid2, shipBuilder.newSubmarine())
+        CLIAdapter.displayOceanGrid(oceanGrid2)
+        shipPlacer.place(oceanGrid2, shipBuilder.newBattleship())
+        CLIAdapter.displayOceanGrid(oceanGrid2)
+
+        val player2 = gameComponentAdapter.createPlayerTwo(playerName2, oceanGrid2)
         CLIAdapter.announcePlayer(player2)
 
         val game = gameComponentAdapter.createGame(player1, player2)
