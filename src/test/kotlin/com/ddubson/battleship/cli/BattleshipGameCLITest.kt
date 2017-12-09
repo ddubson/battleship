@@ -1,6 +1,10 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.core.*
+import com.ddubson.battleship.game.core.Direction
+import com.ddubson.battleship.game.core.InvalidInputException
+import com.ddubson.battleship.game.core.OceanGrid
+import com.ddubson.battleship.game.core.Player
+import com.ddubson.battleship.game.core.TargetGrid
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.ship.Carrier
 import com.nhaarman.mockito_kotlin.doReturn

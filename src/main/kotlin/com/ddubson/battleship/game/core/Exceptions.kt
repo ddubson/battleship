@@ -2,10 +2,10 @@ package com.ddubson.battleship.game.core
 
 class ShipAlreadyPlacedException : RuntimeException()
 
-class ShipOverlapsException: RuntimeException()
+class ShipOverlapsException : RuntimeException()
 
-class CellAlreadyEngagedException: RuntimeException()
+class CellAlreadyEngagedException : RuntimeException()
 
-class ShipBeyondBoundsException: RuntimeException()
+class ShipBeyondBoundsException : RuntimeException()
 
-class InvalidInputException: RuntimeException()
+class InvalidInputException : RuntimeException()

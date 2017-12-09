@@ -1,5 +1,7 @@
 buildscript {
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral()
+    }
 
     dependencies {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
@@ -9,7 +11,14 @@ buildscript {
     }
 }
 
-repositories { mavenCentral() }
+plugins {
+    id "org.jlleitschuh.gradle.ktlint" version "2.3.0"
+}
+
+repositories {
+    jcenter()
+    mavenCentral()
+}
 
 apply plugin: 'kotlin'
 apply plugin: 'kotlin-spring'
@@ -27,6 +36,15 @@ junitPlatform {
             include 'junit-jupiter'
         }
     }
+}
+
+ktlint {
+    version = "0.14.0"
+    debug = true
+    verbose = true
+    android = false
+    reporter = "checkstyle"
+    ignoreFailures = false
 }
 
 dependencies {

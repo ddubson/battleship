@@ -1,10 +1,18 @@
 package com.ddubson.battleship.game.standard
 
-import com.ddubson.battleship.game.core.*
+import com.ddubson.battleship.game.core.Game
+import com.ddubson.battleship.game.core.OceanGrid
+import com.ddubson.battleship.game.core.Player
+import com.ddubson.battleship.game.core.ShipPlacer
+import com.ddubson.battleship.game.core.TargetGrid
 import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
 import com.ddubson.battleship.game.core.builders.ShipBuilder
-import com.ddubson.battleship.game.core.ship.*
+import com.ddubson.battleship.game.core.ship.Battleship
+import com.ddubson.battleship.game.core.ship.Carrier
+import com.ddubson.battleship.game.core.ship.Cruiser
+import com.ddubson.battleship.game.core.ship.Destroyer
+import com.ddubson.battleship.game.core.ship.Submarine
 import com.nhaarman.mockito_kotlin.doReturn
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.times
@@ -81,7 +89,6 @@ class BattleshipGameEngineTest : Spek({
             it("should create an ocean grid for both players") {
                 verify(gameComponentAdapter, times(2)).createOceanGrid()
             }
-
 
             it("should place each ship and display position") {
                 verify(shipPlacer).place(oceanGrid1, carrier1)

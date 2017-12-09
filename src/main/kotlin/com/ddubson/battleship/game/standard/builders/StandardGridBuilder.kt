@@ -6,7 +6,7 @@ import com.ddubson.battleship.game.core.builders.GridBuilder
 import com.ddubson.battleship.game.standard.StandardOceanGrid
 import com.ddubson.battleship.game.standard.StandardTargetGrid
 
-class StandardGridBuilder: GridBuilder {
+class StandardGridBuilder : GridBuilder {
     override fun newOceanGrid(): OceanGrid = StandardOceanGrid()
     override fun newTargetGrid(): TargetGrid = StandardTargetGrid()
 }

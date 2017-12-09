@@ -15,11 +15,11 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
-internal class StandardShipPlacerSpec: Spek({
+internal class StandardShipPlacerSpec : Spek({
     given("a standard ship placer") {
         on("placing a ship") {
             val carrier = Carrier()
-            val cell = Cell(0,0)
+            val cell = Cell(0, 0)
             val direction = Direction.VERTICAL
             val cliAdapter: BattleshipGameCLIAdapter = mock {
                 on { askForCell(carrier) } doReturn cell

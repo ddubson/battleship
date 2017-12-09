@@ -5,7 +5,7 @@ import com.ddubson.battleship.game.core.Player
 import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.TargetCellStatus
-import java.util.*
+import java.util.Queue
 import java.util.concurrent.ArrayBlockingQueue
 
 class StandardGame(player1: Player,
@@ -31,7 +31,7 @@ class StandardGame(player1: Player,
     override fun onAttackEvent(): Cell = CLIAdapter.askForAttackCell()
 
     override fun afterAttackEvent(attacker: Player, opponent: Player, cellStatus: TargetCellStatus) {
-        when(cellStatus) {
+        when (cellStatus) {
             TargetCellStatus.MISS -> CLIAdapter.displayWarning("It's a miss!")
             TargetCellStatus.HIT -> CLIAdapter.displayWarning("It's a hit!")
             else -> CLIAdapter.displayWarning("Could not calculate attack result.")

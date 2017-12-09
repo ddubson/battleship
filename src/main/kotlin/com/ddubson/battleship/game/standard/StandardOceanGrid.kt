@@ -1,7 +1,11 @@
 package com.ddubson.battleship.game.standard
 
-import com.ddubson.battleship.game.core.*
-import com.ddubson.battleship.game.core.cell.OceanCellStatus.*
+import com.ddubson.battleship.game.core.Array2D
+import com.ddubson.battleship.game.core.Direction
+import com.ddubson.battleship.game.core.OceanGrid
+import com.ddubson.battleship.game.core.ShipAlreadyPlacedException
+import com.ddubson.battleship.game.core.ShipBeyondBoundsException
+import com.ddubson.battleship.game.core.ShipOverlapsException
 import com.ddubson.battleship.game.core.cell.AttackStatus
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.OceanCellStatus
@@ -13,7 +17,7 @@ class StandardOceanGrid : OceanGrid {
     private val grid: Array2D<OceanCellStatus>
 
     init {
-        val array = Array(size, { Array(size, { OPEN }) })
+        val array = Array(size, { Array(size, { OceanCellStatus.OPEN }) })
         grid = Array2D(size, size, array)
     }
 
@@ -24,9 +28,9 @@ class StandardOceanGrid : OceanGrid {
             gridVis = gridVis.plus("$y | ")
             (0 until grid.ySize).forEach { x ->
                 val symbol = when (grid[x, y]) {
-                    OPEN -> " "
-                    ENGAGED -> "O"
-                    HIT -> "X"
+                    OceanCellStatus.OPEN -> " "
+                    OceanCellStatus.ENGAGED -> "O"
+                    OceanCellStatus.HIT -> "X"
                 }
                 gridVis = gridVis.plus("$symbol ")
             }
@@ -54,7 +58,7 @@ class StandardOceanGrid : OceanGrid {
 
     override fun hasEngagedCells(): Boolean {
         grid.forEach {
-            if (it == ENGAGED)
+            if (it == OceanCellStatus.ENGAGED)
                 return true
         }
 
@@ -64,8 +68,8 @@ class StandardOceanGrid : OceanGrid {
     override fun bombard(cell: Cell): AttackStatus {
         val cellStatus = this.grid[cell.x, cell.y]
 
-        return if (cellStatus == ENGAGED) {
-            this.grid[cell.x, cell.y] = HIT
+        return if (cellStatus == OceanCellStatus.ENGAGED) {
+            this.grid[cell.x, cell.y] = OceanCellStatus.HIT
             AttackStatus.HIT
         } else {
             AttackStatus.MISS
@@ -73,8 +77,8 @@ class StandardOceanGrid : OceanGrid {
     }
 
     override fun place(ship: Ship, initialCell: Cell, direction: Direction) {
-        if(initialCell.x < 0 || initialCell.x > grid.xSize-1 ||
-                initialCell.y < 0 || initialCell.y > grid.ySize-1) {
+        if (initialCell.x < 0 || initialCell.x > grid.xSize - 1 ||
+                initialCell.y < 0 || initialCell.y > grid.ySize - 1) {
             throw ShipBeyondBoundsException()
         }
 
@@ -106,10 +110,10 @@ class StandardOceanGrid : OceanGrid {
             }
         }
 
-        cells.forEach { grid[it.x, it.y] = ENGAGED }
+        cells.forEach { grid[it.x, it.y] = OceanCellStatus.ENGAGED }
 
         ships.put(ship.type(), cells)
     }
 
-    private fun isGridCellEmpty(x: Int, y: Int): Boolean = grid[x, y] == OPEN
+    private fun isGridCellEmpty(x: Int, y: Int): Boolean = grid[x, y] == OceanCellStatus.OPEN
 }

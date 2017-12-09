@@ -6,7 +6,7 @@ import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 
 @SpringBootApplication
-class BattleshipGameCLIApplication(private val gameEngine: BattleshipGameEngine): CommandLineRunner {
+class BattleshipGameCLIApplication(private val gameEngine: BattleshipGameEngine) : CommandLineRunner {
     override fun run(vararg args: String?) {
         gameEngine.engage()
     }

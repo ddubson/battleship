@@ -7,7 +7,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
 
-internal class UnixClearScreenSpec: Spek({
+internal class UnixClearScreenSpec : Spek({
     given("Unix Clear Screen") {
         on("clear") {
             val cliAdapter: SystemCLIAdapter = mock {}

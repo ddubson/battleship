@@ -7,12 +7,19 @@ import com.ddubson.battleship.game.core.ShipOverlapsException
 import com.ddubson.battleship.game.core.cell.AttackStatus
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.OceanCellStatus
-import com.ddubson.battleship.game.core.ship.*
+import com.ddubson.battleship.game.core.ship.Battleship
+import com.ddubson.battleship.game.core.ship.Carrier
+import com.ddubson.battleship.game.core.ship.Cruiser
+import com.ddubson.battleship.game.core.ship.Destroyer
+import com.ddubson.battleship.game.core.ship.Submarine
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.jetbrains.spek.api.dsl.on
-import org.junit.jupiter.api.Assertions.*
+import org.junit.jupiter.api.Assertions.assertEquals
+import org.junit.jupiter.api.Assertions.assertFalse
+import org.junit.jupiter.api.Assertions.assertThrows
+import org.junit.jupiter.api.Assertions.assertTrue
 
 internal class StandardOceanGridTest : Spek({
     given("a standard ocean grid") {

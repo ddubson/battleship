@@ -1,7 +1,5 @@
 package com.ddubson.battleship.game.standard
 
-import com.ddubson.battleship.game.core.cell.TargetCellStatus.HIT
-import com.ddubson.battleship.game.core.cell.TargetCellStatus.MISS
 import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.Player
 import com.ddubson.battleship.game.core.Subscriber
@@ -9,6 +7,8 @@ import com.ddubson.battleship.game.core.TargetGrid
 import com.ddubson.battleship.game.core.cell.AttackStatus
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.TargetCellStatus
+import com.ddubson.battleship.game.core.cell.TargetCellStatus.HIT
+import com.ddubson.battleship.game.core.cell.TargetCellStatus.MISS
 
 class StandardPlayer(private val playerName: String,
                      private val oceanGrid: OceanGrid,
@@ -46,14 +46,14 @@ class StandardPlayer(private val playerName: String,
 
     override fun receiveAttack(cell: Cell): TargetCellStatus {
         val status = this.oceanGrid.bombard(cell)
-        return when(status) {
+        return when (status) {
             AttackStatus.HIT -> HIT
             else -> MISS
         }
     }
 
     private fun cellHasAlreadyBeenFiredAt(cell: Cell): Boolean {
-        val status =  this.targetGrid.statusOf(cell)
+        val status = this.targetGrid.statusOf(cell)
         return status == HIT || status == MISS
     }
 }

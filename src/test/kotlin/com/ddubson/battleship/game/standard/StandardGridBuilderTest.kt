@@ -6,7 +6,7 @@ import org.jetbrains.spek.api.dsl.given
 import org.jetbrains.spek.api.dsl.it
 import org.junit.jupiter.api.Assertions.assertTrue
 
-class StandardGridBuilderTest: Spek({
+class StandardGridBuilderTest : Spek({
     given("a standard grid builder") {
         val standardGridBuilder = StandardGridBuilder()
 

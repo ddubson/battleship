@@ -1,8 +1,12 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.core.*
+import com.ddubson.battleship.game.core.Direction
 import com.ddubson.battleship.game.core.Direction.HORIZONTAL
 import com.ddubson.battleship.game.core.Direction.VERTICAL
+import com.ddubson.battleship.game.core.InvalidInputException
+import com.ddubson.battleship.game.core.OceanGrid
+import com.ddubson.battleship.game.core.Player
+import com.ddubson.battleship.game.core.TargetGrid
 import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.ship.Ship
@@ -63,7 +67,7 @@ class BattleshipGameCLI(private val systemCliAdapter: SystemCLIAdapter,
         systemCliAdapter.print(msg)
 
         val rawInput = systemCliAdapter.readLine()
-        if(rawInput.isBlank() ||
+        if (rawInput.isBlank() ||
                 !rawInput.matches(Regex("^[0-9] [0-9]$"))) {
             throw InvalidInputException()
         }
