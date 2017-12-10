@@ -1,3 +1,5 @@
 language: java
 jdk: oraclejdk8
-install: ./gradlew clean check test
+install: ./gradlew clean check test jacocoTestReport
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
