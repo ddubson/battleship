@@ -1,10 +1,13 @@
 package com.ddubson.battleship.game.standard
 
+import com.ddubson.battleship.game.core.InvalidInputException
 import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.TargetCellStatus
 import com.nhaarman.mockito_kotlin.doReturn
+import com.nhaarman.mockito_kotlin.doThrow
 import com.nhaarman.mockito_kotlin.mock
+import com.nhaarman.mockito_kotlin.times
 import com.nhaarman.mockito_kotlin.verify
 import org.jetbrains.spek.api.Spek
 import org.jetbrains.spek.api.dsl.given
@@ -57,6 +60,20 @@ internal class StandardGameSpec : Spek({
 
             it("should return the created cell") {
                 assertEquals(actualCell, expectedCell)
+            }
+        }
+
+        on("attack event with bad input") {
+            val cell = Cell(0, 0)
+            val CLIAdapter: BattleshipGameCLIAdapter = mock {
+                on { askForAttackCell() } doThrow InvalidInputException() doReturn cell
+            }
+            val game = StandardGame(mock {}, mock {}, CLIAdapter)
+            game.onAttackEvent()
+
+            it("should display a warning message that attack cell wasn't properly entered") {
+                verify(CLIAdapter, times(2)).askForAttackCell()
+                verify(CLIAdapter).displayWarning("Please enter attack cell in proper format.")
             }
         }
 

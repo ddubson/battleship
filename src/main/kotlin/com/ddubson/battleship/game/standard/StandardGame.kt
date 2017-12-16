@@ -1,6 +1,7 @@
 package com.ddubson.battleship.game.standard
 
 import com.ddubson.battleship.game.core.Game
+import com.ddubson.battleship.game.core.InvalidInputException
 import com.ddubson.battleship.game.core.Player
 import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.cell.Cell
@@ -28,7 +29,15 @@ class StandardGame(player1: Player,
         return turnQueue.element()
     }
 
-    override fun onAttackEvent(): Cell = CLIAdapter.askForAttackCell()
+    override fun onAttackEvent(): Cell {
+        while (true) {
+            try {
+                return CLIAdapter.askForAttackCell()
+            } catch (e: InvalidInputException) {
+                CLIAdapter.displayWarning("Please enter attack cell in proper format.")
+            }
+        }
+    }
 
     override fun afterAttackEvent(attacker: Player, opponent: Player, cellStatus: TargetCellStatus) {
         when (cellStatus) {
