@@ -3,6 +3,7 @@ package com.ddubson.battleship.game.standard
 import com.ddubson.battleship.game.core.Direction
 import com.ddubson.battleship.game.core.InvalidInputException
 import com.ddubson.battleship.game.core.OceanGrid
+import com.ddubson.battleship.game.core.ShipBeyondBoundsException
 import com.ddubson.battleship.game.core.ShipOverlapsException
 import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.cell.Cell
@@ -83,6 +84,27 @@ internal class StandardShipPlacerSpec : Spek({
             it("should prompt the user for good cell coordinates") {
                 verify(cliAdapter, times(2)).askForCell(ship)
                 verify(cliAdapter).displayWarning("Please enter proper coordinates. Try again!")
+            }
+        }
+
+        on("placing a ship beyond bounds") {
+            it("should prompt the user to enter cell coordinates again") {
+                val badCell = Cell(5, 5)
+                oceanGrid = mock {
+                    on { place(ship, badCell, direction) } doThrow ShipBeyondBoundsException()
+                }
+                cliAdapter = mock {
+                    on { askForCell(ship) } doReturn badCell doReturn goodCell
+                    on { askForDirection(ship) } doReturn direction
+                }
+
+                val shipPlacer = StandardShipPlacer(cliAdapter)
+
+                shipPlacer.place(oceanGrid, ship)
+
+                verify(cliAdapter, times(2)).askForCell(ship)
+                verify(cliAdapter)
+                        .displayWarning("Initial cell or direction puts the ship beyond battlespace boundaries. Please try again!")
             }
         }
     }
