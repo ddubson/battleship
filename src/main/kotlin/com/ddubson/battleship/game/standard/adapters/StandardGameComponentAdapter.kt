@@ -19,7 +19,8 @@ class StandardGameComponentAdapter(private val CLIAdapter: BattleshipGameCLIAdap
     override fun createPlayerTwo(playerName: String, oceanGrid: OceanGrid): Player =
             playerBuilder.newPlayer(playerName, oceanGrid, gridBuilder.newTargetGrid())
 
-    override fun createGame(player1: Player, player2: Player): Game = gameBuilder.newGame(player1, player2, CLIAdapter)
+    override fun createGame(player1: Player, player2: Player): Game =
+            gameBuilder.newGame(player1, player2, CLIAdapter)
 
     override fun createOceanGrid(): OceanGrid = gridBuilder.newOceanGrid()
 }
