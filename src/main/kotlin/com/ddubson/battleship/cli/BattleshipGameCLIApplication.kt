@@ -1,6 +1,6 @@
 package com.ddubson.battleship.cli
 
-import com.ddubson.battleship.game.standard.BattleshipGameEngine
+import com.ddubson.battleship.game.core.BattleshipGameEngine
 import org.springframework.boot.CommandLineRunner
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication

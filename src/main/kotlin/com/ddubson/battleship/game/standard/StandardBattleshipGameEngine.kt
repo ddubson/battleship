@@ -1,15 +1,16 @@
 package com.ddubson.battleship.game.standard
 
+import com.ddubson.battleship.game.core.BattleshipGameEngine
 import com.ddubson.battleship.game.core.ShipPlacer
 import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
 import com.ddubson.battleship.game.core.builders.ShipBuilder
 
-class BattleshipGameEngine(private val CLIAdapter: BattleshipGameCLIAdapter,
-                           private val gameComponentAdapter: GameComponentAdapter,
-                           private val shipBuilder: ShipBuilder,
-                           private val shipPlacer: ShipPlacer) {
-    fun engage() {
+class StandardBattleshipGameEngine(private val CLIAdapter: BattleshipGameCLIAdapter,
+                                   private val gameComponentAdapter: GameComponentAdapter,
+                                   private val shipBuilder: ShipBuilder,
+                                   private val shipPlacer: ShipPlacer) : BattleshipGameEngine {
+    override fun engage() {
         CLIAdapter.printBanner()
 
         val playerName1 = CLIAdapter.askForPlayerName()

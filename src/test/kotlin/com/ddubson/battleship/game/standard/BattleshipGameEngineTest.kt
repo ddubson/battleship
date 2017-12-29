@@ -77,7 +77,7 @@ class BattleshipGameEngineTest : Spek({
         }
         val shipPlacer: ShipPlacer = mock {}
 
-        val engine = BattleshipGameEngine(CLIAdapter, gameComponentAdapter, shipBuilder, shipPlacer)
+        val engine = StandardBattleshipGameEngine(CLIAdapter, gameComponentAdapter, shipBuilder, shipPlacer)
 
         on("engage") {
             engine.engage()
