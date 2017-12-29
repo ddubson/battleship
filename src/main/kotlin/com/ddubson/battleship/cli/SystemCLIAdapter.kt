@@ -13,11 +13,11 @@ open class StandardSystemCLIAdapter : SystemCLIAdapter {
     }
 
     override fun print(msg: String) {
-        kotlin.io.print(msg)
+        System.out.print(msg)
     }
 
     override fun println(msg: String) {
-        kotlin.io.println(msg)
+        System.out.println(msg)
     }
 
     override fun readLine(): String = kotlin.io.readLine()!!
