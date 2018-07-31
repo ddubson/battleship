@@ -1,9 +1,12 @@
-package com.ddubson.battleship.cli
+package com.ddubson.battleship.cli.unix
+
+import com.ddubson.battleship.cli.ClearScreen
+import com.ddubson.battleship.cli.SystemCLIAdapter
 
 class UnixClearScreen(private val cliAdapter: SystemCLIAdapter) : ClearScreen {
 
     override fun clear() {
-        cliAdapter.print(Companion.ANSI_CLS + Companion.ANSI_HOME)
+        cliAdapter.print(ANSI_CLS + ANSI_HOME)
         cliAdapter.flush()
     }
 

@@ -1,5 +1,6 @@
 package com.ddubson.battleship.cli
 
+import com.ddubson.battleship.BattleshipGameCLIApplication
 import com.ddubson.battleship.game.core.BattleshipGameEngine
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
@@ -11,7 +12,7 @@ import org.junit.platform.runner.JUnitPlatform
 import org.junit.runner.RunWith
 
 @RunWith(JUnitPlatform::class)
-class BattleshipGameCLIApplicationSpec : Spek({
+class CLIUserInterfaceAdapterApplicationSpec : Spek({
     given("a battleship game application") {
         val gameEngine: BattleshipGameEngine = mock {}
         val application = BattleshipGameCLIApplication(gameEngine)

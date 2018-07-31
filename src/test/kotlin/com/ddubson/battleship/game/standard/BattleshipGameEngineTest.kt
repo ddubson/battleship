@@ -5,7 +5,7 @@ import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.Player
 import com.ddubson.battleship.game.core.ShipPlacer
 import com.ddubson.battleship.game.core.TargetGrid
-import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
+import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
 import com.ddubson.battleship.game.core.builders.ShipBuilder
 import com.ddubson.battleship.game.core.ship.Battleship
@@ -64,7 +64,7 @@ class BattleshipGameEngineTest : Spek({
         val submarine2 = Submarine()
         val destroyer2 = Destroyer()
 
-        val CLIAdapter: BattleshipGameCLIAdapter = mock {
+        val CLIAdapter: UserInterfaceAdapter = mock {
             on { askForPlayerName() } doReturn "player1" doReturn "player2"
         }
 

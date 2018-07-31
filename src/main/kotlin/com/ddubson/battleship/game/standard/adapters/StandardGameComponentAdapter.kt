@@ -3,13 +3,13 @@ package com.ddubson.battleship.game.standard.adapters
 import com.ddubson.battleship.game.core.Game
 import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.Player
-import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
+import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
 import com.ddubson.battleship.game.core.builders.GameBuilder
 import com.ddubson.battleship.game.core.builders.GridBuilder
 import com.ddubson.battleship.game.core.builders.PlayerBuilder
 
-class StandardGameComponentAdapter(private val CLIAdapter: BattleshipGameCLIAdapter,
+class StandardGameComponentAdapter(private val CLIAdapter: UserInterfaceAdapter,
                                    private val gridBuilder: GridBuilder,
                                    private val gameBuilder: GameBuilder,
                                    private val playerBuilder: PlayerBuilder) : GameComponentAdapter {

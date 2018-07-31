@@ -6,11 +6,11 @@ import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.ShipBeyondBoundsException
 import com.ddubson.battleship.game.core.ShipOverlapsException
 import com.ddubson.battleship.game.core.ShipPlacer
-import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
+import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.ship.Ship
 
-class StandardShipPlacer(private val cliAdapter: BattleshipGameCLIAdapter) : ShipPlacer {
+class StandardShipPlacer(private val cliAdapter: UserInterfaceAdapter) : ShipPlacer {
     override fun place(oceanGrid: OceanGrid, ship: Ship) {
         cliAdapter.placeShipBanner(ship.type())
         val initialCell = askForShipStartCoordinates(ship)

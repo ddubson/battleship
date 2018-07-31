@@ -4,7 +4,7 @@ import com.ddubson.battleship.game.core.Game
 import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.Player
 import com.ddubson.battleship.game.core.TargetGrid
-import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
+import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.builders.GameBuilder
 import com.ddubson.battleship.game.core.builders.GridBuilder
 import com.ddubson.battleship.game.core.builders.PlayerBuilder
@@ -46,7 +46,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val player1 = StandardPlayer("Player1", mock {}, targetGrid)
             val player2 = StandardPlayer("Player2", mock {}, targetGrid)
             val game: Game = mock {}
-            val CLIAdapter: BattleshipGameCLIAdapter = mock {}
+            val CLIAdapter: UserInterfaceAdapter = mock {}
             val gameBuilder: GameBuilder = mock {
                 on { newGame(player1, player2, CLIAdapter) } doReturn game
             }

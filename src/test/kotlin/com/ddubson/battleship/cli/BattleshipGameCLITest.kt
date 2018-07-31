@@ -21,7 +21,7 @@ class BattleshipGameCLITest : Spek({
     given("a battleship game cli") {
         on("ask for player name") {
             val cliAdapter: SystemCLIAdapter = mock { on { readLine() } doReturn "playerName" }
-            val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+            val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
             val actualPlayerName = battleshipGameCli.askForPlayerName()
 
             it("should prompt for player to enter name") {
@@ -35,7 +35,7 @@ class BattleshipGameCLITest : Spek({
 
         on("ask for direction") {
             val cliAdapter: SystemCLIAdapter = mock { on { readLine() } doReturn "h" }
-            val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+            val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
             val ship = Carrier()
             val actualDirection = battleshipGameCli.askForDirection(ship)
 
@@ -50,7 +50,7 @@ class BattleshipGameCLITest : Spek({
 
         on("ask for cell") {
             val cliAdapter: SystemCLIAdapter = mock { on { readLine() } doReturn "0 1" }
-            val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+            val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
             val ship = Carrier()
             val expectedCell = Cell(0, 1)
             val actualCell = battleshipGameCli.askForCell(ship)
@@ -84,7 +84,7 @@ class BattleshipGameCLITest : Spek({
 
         on("ask for attack cell") {
             val cliAdapter: SystemCLIAdapter = mock { on { readLine() } doReturn "0 1" }
-            val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+            val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
             val expectedCell = Cell(0, 1)
             val actualCell = battleshipGameCli.askForAttackCell()
 
@@ -102,7 +102,7 @@ class BattleshipGameCLITest : Spek({
 
             it("should display place ship banner notice") {
                 val cliAdapter: SystemCLIAdapter = mock {}
-                val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
 
                 battleshipGameCli.placeShipBanner("Carrier")
                 verify(cliAdapter).println("Enter Carrier coordinates...")
@@ -111,7 +111,7 @@ class BattleshipGameCLITest : Spek({
             it("should announce player") {
                 val cliAdapter: SystemCLIAdapter = mock {}
                 val clearScreen: ClearScreen = mock {}
-                val battleshipGameCli = BattleshipGameCLI(cliAdapter, clearScreen)
+                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
                 val player: Player = mock {
                     on { playerName() } doReturn "Player 1"
                 }
@@ -124,7 +124,7 @@ class BattleshipGameCLITest : Spek({
             it("should print the game banner") {
                 val cliAdapter: SystemCLIAdapter = mock {}
                 val clearScreen: ClearScreen = mock {}
-                val battleshipGameCli = BattleshipGameCLI(cliAdapter, clearScreen)
+                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
                 battleshipGameCli.printBanner()
 
                 verify(clearScreen).clear()
@@ -133,7 +133,7 @@ class BattleshipGameCLITest : Spek({
 
             it("should display warnings") {
                 val cliAdapter: SystemCLIAdapter = mock {}
-                val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
                 val message = "Some message"
                 battleshipGameCli.displayWarning(message)
                 verify(cliAdapter).println(message)
@@ -142,7 +142,7 @@ class BattleshipGameCLITest : Spek({
             it("should display an ocean grid") {
                 val cliAdapter: SystemCLIAdapter = mock {}
                 val clearScreen: ClearScreen = mock {}
-                val battleshipGameCli = BattleshipGameCLI(cliAdapter, clearScreen)
+                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
 
                 val printedOceanGrid = "grid..."
                 val oceanGrid: OceanGrid = mock {
@@ -157,7 +157,7 @@ class BattleshipGameCLITest : Spek({
 
             it("should display a target grid") {
                 val cliAdapter: SystemCLIAdapter = mock {}
-                val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
 
                 val printedTargetGrid = "grid..."
                 val targetGrid: TargetGrid = mock {
@@ -171,7 +171,7 @@ class BattleshipGameCLITest : Spek({
 
             it("should announce the winner of a game") {
                 val cliAdapter: SystemCLIAdapter = mock {}
-                val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
                 val player: Player = mock {
                     on { playerName() } doReturn "Player 1"
                 }
@@ -185,7 +185,7 @@ class BattleshipGameCLITest : Spek({
 })
 
 fun assertInvalidInput(cliAdapter: SystemCLIAdapter) {
-    val battleshipGameCli = BattleshipGameCLI(cliAdapter, mock {})
+    val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
     assertThrows(InvalidInputException::class.java, {
         battleshipGameCli.askForCell(Carrier())
     })

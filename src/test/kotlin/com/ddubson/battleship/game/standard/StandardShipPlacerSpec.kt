@@ -5,7 +5,7 @@ import com.ddubson.battleship.game.core.InvalidInputException
 import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.ShipBeyondBoundsException
 import com.ddubson.battleship.game.core.ShipOverlapsException
-import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
+import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.ship.Carrier
 import com.nhaarman.mockito_kotlin.doReturn
@@ -26,7 +26,7 @@ internal class StandardShipPlacerSpec : Spek({
         val ship = Carrier()
         val goodCell = Cell(0, 1)
         val direction = Direction.VERTICAL
-        var cliAdapter: BattleshipGameCLIAdapter
+        var cliAdapter: UserInterfaceAdapter
         var oceanGrid: OceanGrid
 
         on("placing a ship") {

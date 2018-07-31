@@ -1,7 +1,7 @@
 package com.ddubson.battleship.game.standard
 
 import com.ddubson.battleship.game.core.InvalidInputException
-import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
+import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.cell.TargetCellStatus
 import com.nhaarman.mockito_kotlin.doReturn
@@ -48,7 +48,7 @@ internal class StandardGameSpec : Spek({
 
         on("attack event") {
             val expectedCell = Cell(1, 1)
-            val CLIAdapter: BattleshipGameCLIAdapter = mock {
+            val CLIAdapter: UserInterfaceAdapter = mock {
                 on { askForAttackCell() } doReturn expectedCell
             }
             val game = StandardGame(player1, player2, CLIAdapter)
@@ -65,7 +65,7 @@ internal class StandardGameSpec : Spek({
 
         on("attack event with bad input") {
             val cell = Cell(0, 0)
-            val CLIAdapter: BattleshipGameCLIAdapter = mock {
+            val CLIAdapter: UserInterfaceAdapter = mock {
                 on { askForAttackCell() } doThrow InvalidInputException() doReturn cell
             }
             val game = StandardGame(mock {}, mock {}, CLIAdapter)
@@ -78,7 +78,7 @@ internal class StandardGameSpec : Spek({
         }
 
         on("after attack event") {
-            val CLIAdapter: BattleshipGameCLIAdapter = mock {}
+            val CLIAdapter: UserInterfaceAdapter = mock {}
             val game = StandardGame(player1, player2, CLIAdapter)
 
             it("should display that the attacker missed if target cell is a miss") {

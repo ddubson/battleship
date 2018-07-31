@@ -1,5 +1,6 @@
 package com.ddubson.battleship.cli
 
+import com.ddubson.battleship.cli.unix.UnixClearScreen
 import com.nhaarman.mockito_kotlin.mock
 import com.nhaarman.mockito_kotlin.verify
 import org.jetbrains.spek.api.Spek

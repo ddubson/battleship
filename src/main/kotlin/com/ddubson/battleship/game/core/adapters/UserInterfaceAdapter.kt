@@ -7,7 +7,7 @@ import com.ddubson.battleship.game.core.TargetGrid
 import com.ddubson.battleship.game.core.cell.Cell
 import com.ddubson.battleship.game.core.ship.Ship
 
-interface BattleshipGameCLIAdapter {
+interface UserInterfaceAdapter {
     fun printBanner()
     fun announcePlayer(player: Player)
     fun placeShipBanner(shipType: String)

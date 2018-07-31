@@ -1,9 +1,14 @@
-package com.ddubson.battleship.cli
+package com.ddubson.battleship
 
+import com.ddubson.battleship.cli.CLIUserInterfaceAdapter
+import com.ddubson.battleship.cli.ClearScreen
+import com.ddubson.battleship.cli.StandardSystemCLIAdapter
+import com.ddubson.battleship.cli.SystemCLIAdapter
+import com.ddubson.battleship.cli.unix.UnixClearScreen
 import com.ddubson.battleship.game.core.BattleshipGameEngine
 import com.ddubson.battleship.game.core.ShipPlacer
-import com.ddubson.battleship.game.core.adapters.BattleshipGameCLIAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
+import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.builders.GameBuilder
 import com.ddubson.battleship.game.core.builders.GridBuilder
 import com.ddubson.battleship.game.core.builders.PlayerBuilder
@@ -19,20 +24,20 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
 @Configuration
-class BattleshipGameCLIConfig {
+class BattleshipGameConfig {
     @Bean
     fun gameEngine(): BattleshipGameEngine = StandardBattleshipGameEngine(
-            battleshipGameCliAdapter(), gameComponentAdapter(), shipBuilder(), shipPlacer())
+            userInterfaceAdapter(), gameComponentAdapter(), shipBuilder(), shipPlacer())
 
     @Bean
-    fun battleshipGameCliAdapter(): BattleshipGameCLIAdapter = BattleshipGameCLI(cliAdapter(), clearScreen())
+    fun userInterfaceAdapter(): UserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter(), clearScreen())
 
     @Bean
     fun gameComponentAdapter(): GameComponentAdapter = StandardGameComponentAdapter(
-            battleshipGameCliAdapter(), gridBuilder(), gameBuilder(), playerBuilder())
+            userInterfaceAdapter(), gridBuilder(), gameBuilder(), playerBuilder())
 
     @Bean
-    fun shipPlacer(): ShipPlacer = StandardShipPlacer(battleshipGameCliAdapter())
+    fun shipPlacer(): ShipPlacer = StandardShipPlacer(userInterfaceAdapter())
 
     @Bean
     fun gridBuilder(): GridBuilder = StandardGridBuilder()
