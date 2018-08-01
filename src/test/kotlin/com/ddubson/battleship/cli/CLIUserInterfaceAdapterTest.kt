@@ -17,12 +17,12 @@ import org.jetbrains.spek.api.dsl.on
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Assertions.assertThrows
 
-class BattleshipGameCLITest : Spek({
+class CLIUserInterfaceAdapterTest : Spek({
     given("a battleship game cli") {
         on("ask for player name") {
             val cliAdapter: SystemCLIAdapter = mock { on { readLine() } doReturn "playerName" }
-            val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
-            val actualPlayerName = battleshipGameCli.askForPlayerName()
+            val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
+            val actualPlayerName = cliUserInterfaceAdapter.askForPlayerName()
 
             it("should prompt for player to enter name") {
                 verify(cliAdapter).print("Enter player name: ")
@@ -35,9 +35,9 @@ class BattleshipGameCLITest : Spek({
 
         on("ask for direction") {
             val cliAdapter: SystemCLIAdapter = mock { on { readLine() } doReturn "h" }
-            val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
+            val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
             val ship = Carrier()
-            val actualDirection = battleshipGameCli.askForDirection(ship)
+            val actualDirection = cliUserInterfaceAdapter.askForDirection(ship)
 
             it("should prompt for direction") {
                 verify(cliAdapter).print("Enter direction for ${ship.type()} [h|v]: ")
@@ -50,10 +50,10 @@ class BattleshipGameCLITest : Spek({
 
         on("ask for cell") {
             val cliAdapter: SystemCLIAdapter = mock { on { readLine() } doReturn "0 1" }
-            val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
+            val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
             val ship = Carrier()
             val expectedCell = Cell(0, 1)
-            val actualCell = battleshipGameCli.askForCell(ship)
+            val actualCell = cliUserInterfaceAdapter.askForCell(ship)
 
             it("should prompt to enter the cell coordinates") {
                 verify(cliAdapter).print("Enter initial coordinates for ${ship.type()} (e.g. '1 2' for [1,2]): ")
@@ -84,9 +84,9 @@ class BattleshipGameCLITest : Spek({
 
         on("ask for attack cell") {
             val cliAdapter: SystemCLIAdapter = mock { on { readLine() } doReturn "0 1" }
-            val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
+            val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
             val expectedCell = Cell(0, 1)
-            val actualCell = battleshipGameCli.askForAttackCell()
+            val actualCell = cliUserInterfaceAdapter.askForAttackCell()
 
             it("should prompt the user to enter an attack cell") {
                 verify(cliAdapter).print("Enter attack cell coordinates: ")
@@ -102,20 +102,20 @@ class BattleshipGameCLITest : Spek({
 
             it("should display place ship banner notice") {
                 val cliAdapter: SystemCLIAdapter = mock {}
-                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
+                val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
 
-                battleshipGameCli.placeShipBanner("Carrier")
+                cliUserInterfaceAdapter.placeShipBanner("Carrier")
                 verify(cliAdapter).println("Enter Carrier coordinates...")
             }
 
             it("should announce player") {
                 val cliAdapter: SystemCLIAdapter = mock {}
                 val clearScreen: ClearScreen = mock {}
-                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
+                val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
                 val player: Player = mock {
                     on { playerName() } doReturn "Player 1"
                 }
-                battleshipGameCli.announcePlayer(player)
+                cliUserInterfaceAdapter.announcePlayer(player)
 
                 verify(clearScreen).clear()
                 verify(cliAdapter).println("Player Player 1 has entered the battlespace!")
@@ -124,8 +124,8 @@ class BattleshipGameCLITest : Spek({
             it("should print the game banner") {
                 val cliAdapter: SystemCLIAdapter = mock {}
                 val clearScreen: ClearScreen = mock {}
-                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
-                battleshipGameCli.printBanner()
+                val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
+                cliUserInterfaceAdapter.printBanner()
 
                 verify(clearScreen).clear()
                 verify(cliAdapter).println("--- Welcome to Battleship! ---")
@@ -133,23 +133,23 @@ class BattleshipGameCLITest : Spek({
 
             it("should display warnings") {
                 val cliAdapter: SystemCLIAdapter = mock {}
-                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
+                val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
                 val message = "Some message"
-                battleshipGameCli.displayWarning(message)
+                cliUserInterfaceAdapter.displayWarning(message)
                 verify(cliAdapter).println(message)
             }
 
             it("should display an ocean grid") {
                 val cliAdapter: SystemCLIAdapter = mock {}
                 val clearScreen: ClearScreen = mock {}
-                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
+                val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, clearScreen)
 
                 val printedOceanGrid = "grid..."
                 val oceanGrid: OceanGrid = mock {
                     on { as2DString() } doReturn printedOceanGrid
                 }
 
-                battleshipGameCli.displayOceanGrid(oceanGrid)
+                cliUserInterfaceAdapter.displayOceanGrid(oceanGrid)
 
                 verify(clearScreen).clear()
                 verify(cliAdapter).println(printedOceanGrid)
@@ -157,26 +157,26 @@ class BattleshipGameCLITest : Spek({
 
             it("should display a target grid") {
                 val cliAdapter: SystemCLIAdapter = mock {}
-                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
+                val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
 
                 val printedTargetGrid = "grid..."
                 val targetGrid: TargetGrid = mock {
                     on { as2DString() } doReturn printedTargetGrid
                 }
 
-                battleshipGameCli.displayTargetGrid(targetGrid)
+                cliUserInterfaceAdapter.displayTargetGrid(targetGrid)
 
                 verify(cliAdapter).println(printedTargetGrid)
             }
 
             it("should announce the winner of a game") {
                 val cliAdapter: SystemCLIAdapter = mock {}
-                val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
+                val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
                 val player: Player = mock {
                     on { playerName() } doReturn "Player 1"
                 }
 
-                battleshipGameCli.announceWinner(player)
+                cliUserInterfaceAdapter.announceWinner(player)
 
                 verify(cliAdapter).println("#### Player ${player.playerName()} wins! ####")
             }
@@ -185,8 +185,8 @@ class BattleshipGameCLITest : Spek({
 })
 
 fun assertInvalidInput(cliAdapter: SystemCLIAdapter) {
-    val battleshipGameCli = CLIUserInterfaceAdapter(cliAdapter, mock {})
-    assertThrows(InvalidInputException::class.java, {
-        battleshipGameCli.askForCell(Carrier())
-    })
+    val cliUserInterfaceAdapter = CLIUserInterfaceAdapter(cliAdapter, mock {})
+    assertThrows(InvalidInputException::class.java) {
+        cliUserInterfaceAdapter.askForCell(Carrier())
+    }
 }
