@@ -5,8 +5,8 @@ import com.ddubson.battleship.game.core.OceanGrid
 import com.ddubson.battleship.game.core.Player
 import com.ddubson.battleship.game.core.ShipPlacer
 import com.ddubson.battleship.game.core.TargetGrid
-import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.adapters.GameComponentAdapter
+import com.ddubson.battleship.game.core.adapters.UserInterfaceAdapter
 import com.ddubson.battleship.game.core.builders.ShipBuilder
 import com.ddubson.battleship.game.core.ship.Battleship
 import com.ddubson.battleship.game.core.ship.Carrier
@@ -47,8 +47,8 @@ class BattleshipGameEngineTest : Spek({
 
         val gameComponentAdapter: GameComponentAdapter = mock {
             on { createOceanGrid() } doReturn oceanGrid1 doReturn oceanGrid2
-            on { createPlayerOne("player1", oceanGrid1) } doReturn player1
-            on { createPlayerTwo("player2", oceanGrid2) } doReturn player2
+            on { createPlayer("player1", oceanGrid1) } doReturn player1
+            on { createPlayer("player2", oceanGrid2) } doReturn player2
             on { createGame(player1, player2) } doReturn game1
         }
 
@@ -113,8 +113,8 @@ class BattleshipGameEngineTest : Spek({
             }
 
             it("should create two players") {
-                verify(gameComponentAdapter).createPlayerOne("player1", oceanGrid1)
-                verify(gameComponentAdapter).createPlayerTwo("player2", oceanGrid2)
+                verify(gameComponentAdapter).createPlayer("player1", oceanGrid1)
+                verify(gameComponentAdapter).createPlayer("player2", oceanGrid2)
             }
 
             it("should create a game") {

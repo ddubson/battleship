@@ -28,7 +28,7 @@ class StandardBattleshipGameEngine(private val userInterfaceAdapter: UserInterfa
             userInterfaceAdapter.displayOceanGrid(oceanGrid)
 
 
-            val player = gameComponentAdapter.createPlayerOne(playerName, oceanGrid)
+            val player = gameComponentAdapter.createPlayer(playerName, oceanGrid)
             userInterfaceAdapter.announcePlayer(player)
             player
         }

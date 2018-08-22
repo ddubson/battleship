@@ -80,7 +80,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val gameComponentAdapter = StandardGameComponentAdapter(
                     mock {}, gridBuilder, mock {}, playerBuilder)
 
-            val actualPlayer = gameComponentAdapter.createPlayerOne(playerName, oceanGrid)
+            val actualPlayer = gameComponentAdapter.createPlayer(playerName, oceanGrid)
 
             it("should call player builder") {
                 verify(playerBuilder).newPlayer(playerName, oceanGrid, targetGrid)
@@ -108,7 +108,7 @@ class StandardGameComponentAdapterSpec : Spek({
             val gameComponentAdapter = StandardGameComponentAdapter(
                     mock {}, gridBuilder, mock {}, playerBuilder)
 
-            val actualPlayer = gameComponentAdapter.createPlayerTwo(playerName, oceanGrid)
+            val actualPlayer = gameComponentAdapter.createPlayer(playerName, oceanGrid)
 
             it("should call player builder") {
                 verify(playerBuilder).newPlayer(playerName, oceanGrid, targetGrid)
